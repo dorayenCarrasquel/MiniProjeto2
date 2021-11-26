@@ -9,11 +9,7 @@ public class Conta {
     private Correntista correntista;
     private TipoConta tipo;
 
-    public Conta(String numeroConta, String agencia, Correntista correntista, TipoConta tipo) {
-        this.numeroConta = numeroConta;
-        this.agencia = agencia;
-        this.correntista = correntista;
-        this.tipo = tipo;
+    public Conta() {
     }
 
     public String getNumeroConta() {
