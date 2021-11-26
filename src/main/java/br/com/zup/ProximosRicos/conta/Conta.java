@@ -1,5 +1,6 @@
 package br.com.zup.ProximosRicos.conta;
 
+import br.com.zup.ProximosRicos.correntista.Correntista;
 import br.com.zup.ProximosRicos.enums.TipoConta;
 
 public class Conta {
@@ -39,11 +40,12 @@ public class Conta {
         this.correntista = correntista;
     }
 
-    public Tipo getTipo() {
+    public TipoConta getTipo() {
         return tipo;
     }
 
-    public void setTipo(Tipo tipo) {
+    public void setTipo(TipoConta tipo) {
         this.tipo = tipo;
     }
 }
+
