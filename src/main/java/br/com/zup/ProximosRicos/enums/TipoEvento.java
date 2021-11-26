@@ -1,2 +1,4 @@
-package br.com.zup.ProximosRicos.enums;public enum TipoEvento {
+package br.com.zup.ProximosRicos.enums;
+
+public enum TipoEvento {
 }
