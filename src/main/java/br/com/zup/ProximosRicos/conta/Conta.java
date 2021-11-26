@@ -1,12 +1,14 @@
 package br.com.zup.ProximosRicos.conta;
 
+import br.com.zup.ProximosRicos.enums.TipoConta;
+
 public class Conta {
     private String numeroConta;
     private String agencia;
     private Correntista correntista;
-    private Tipo tipo;
+    private TipoConta tipo;
 
-    public Conta(String numeroConta, String agencia, Correntista correntista, Tipo tipo) {
+    public Conta(String numeroConta, String agencia, Correntista correntista, TipoConta tipo) {
         this.numeroConta = numeroConta;
         this.agencia = agencia;
         this.correntista = correntista;
