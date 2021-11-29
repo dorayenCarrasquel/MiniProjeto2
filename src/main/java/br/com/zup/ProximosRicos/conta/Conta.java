@@ -5,6 +5,8 @@ import br.com.zup.ProximosRicos.enums.TipoConta;
 import br.com.zup.ProximosRicos.extrato.Extrato;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -19,6 +21,7 @@ public class Conta {
     @OneToMany
     private int idBanco;
     private Correntista correntista;
+    @Enumerated(EnumType.STRING)
     private TipoConta tipo;
     @OneToOne
     private Extrato extrato;

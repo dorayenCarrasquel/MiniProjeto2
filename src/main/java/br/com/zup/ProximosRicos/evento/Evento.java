@@ -3,6 +3,8 @@ package br.com.zup.ProximosRicos.evento;
 import br.com.zup.ProximosRicos.enums.TipoEvento;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +17,7 @@ public class Evento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private LocalDateTime data;
+    @Enumerated(EnumType.STRING)
     private TipoEvento tipoEvento;
     private double saldoDisponivel;
     private double valorEvento;
