@@ -20,11 +20,11 @@ public class Conta {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int numeroConta;
-    @OneToOne
+    @OneToOne(cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private Correntista correntista;
     @Enumerated(EnumType.STRING)
     private TipoConta tipo;
-    @OneToOne
+    @OneToOne (cascade= CascadeType.PERSIST)
     private Extrato extrato;
 
     public Conta() {
