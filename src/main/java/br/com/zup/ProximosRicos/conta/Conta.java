@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -26,14 +25,6 @@ public class Conta {
     private Extrato extrato;
 
     public Conta() {
-    }
-
-    public int getIdBanco() {
-        return idBanco;
-    }
-
-    public void setIdBanco(int idBanco) {
-        this.idBanco = idBanco;
     }
 
     public Extrato getExtrato() {
