@@ -1,11 +1,7 @@
 package br.com.zup.ProximosRicos.correntista;
 
-import br.com.zup.ProximosRicos.conta.Conta;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -34,11 +30,4 @@ public class Correntista {
         this.nome = nome;
     }
 
-    public Conta getConta() {
-        return conta;
-    }
-
-    public void setConta(Conta conta) {
-        this.conta = conta;
-    }
 }
