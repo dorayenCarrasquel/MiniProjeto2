@@ -18,8 +18,7 @@ public class Conta {
     @Id
     private String numeroConta;
     private String agencia;
-    @OneToMany
-    private int idBanco;
+    @OneToOne
     private Correntista correntista;
     @Enumerated(EnumType.STRING)
     private TipoConta tipo;
