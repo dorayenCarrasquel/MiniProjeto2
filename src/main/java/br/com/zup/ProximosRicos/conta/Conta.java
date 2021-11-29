@@ -4,19 +4,22 @@ import br.com.zup.ProximosRicos.correntista.Correntista;
 import br.com.zup.ProximosRicos.enums.TipoConta;
 import br.com.zup.ProximosRicos.extrato.Extrato;
 
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.*;
+
 
 @Entity
 @Table(name = "contas")
 public class Conta {
     @Id
-    private String numeroConta;
-    private String agencia;
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private int numeroConta;
     @OneToOne
     private Correntista correntista;
     @Enumerated(EnumType.STRING)
@@ -35,20 +38,12 @@ public class Conta {
         this.extrato = extrato;
     }
 
-    public String getNumeroConta() {
+    public int getNumeroConta() {
         return numeroConta;
     }
 
-    public void setNumeroConta(String numeroConta) {
+    public void setNumeroConta(int numeroConta) {
         this.numeroConta = numeroConta;
-    }
-
-    public String getAgencia() {
-        return agencia;
-    }
-
-    public void setAgencia(String agencia) {
-        this.agencia = agencia;
     }
 
     public Correntista getCorrentista() {
