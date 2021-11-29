@@ -14,9 +14,6 @@ public class Correntista {
     @Id
     private String cpf;
     private String nome;
-    @Column(unique = true)
-    @OneToOne
-    private Conta conta;
 
     public Correntista() {
     }
