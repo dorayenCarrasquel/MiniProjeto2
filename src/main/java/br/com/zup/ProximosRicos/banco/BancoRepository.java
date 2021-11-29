@@ -1,2 +1,6 @@
-package br.com.zup.ProximosRicos.banco;public interface BancoRepository {
+package br.com.zup.ProximosRicos.banco;
+
+import org.springframework.data.repository.CrudRepository;
+
+public interface BancoRepository extends CrudRepository <Banco, Integer>{
 }
