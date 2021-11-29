@@ -2,10 +2,12 @@ package br.com.zup.ProximosRicos.extrato;
 
 import br.com.zup.ProximosRicos.evento.Evento;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
 @Entity
@@ -14,6 +16,7 @@ public class Extrato {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @OneToMany
     private List<Evento>eventos;
 
 
