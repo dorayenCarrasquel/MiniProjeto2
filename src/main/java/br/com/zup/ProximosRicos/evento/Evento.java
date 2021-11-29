@@ -2,9 +2,17 @@ package br.com.zup.ProximosRicos.evento;
 
 import br.com.zup.ProximosRicos.enums.TipoEvento;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
-
+@Entity
+@Table(name = "eventos")
 public class Evento {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private LocalDateTime data;
     private TipoEvento tipoEvento;

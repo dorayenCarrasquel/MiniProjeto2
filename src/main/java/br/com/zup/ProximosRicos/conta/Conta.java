@@ -4,14 +4,34 @@ import br.com.zup.ProximosRicos.correntista.Correntista;
 import br.com.zup.ProximosRicos.enums.TipoConta;
 import br.com.zup.ProximosRicos.extrato.Extrato;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "contas")
 public class Conta {
+    @Id
     private String numeroConta;
     private String agencia;
+    @OneToMany
+    private int idBanco;
     private Correntista correntista;
     private TipoConta tipo;
+    @OneToOne
     private Extrato extrato;
 
     public Conta() {
+    }
+
+    public int getIdBanco() {
+        return idBanco;
+    }
+
+    public void setIdBanco(int idBanco) {
+        this.idBanco = idBanco;
     }
 
     public Extrato getExtrato() {
