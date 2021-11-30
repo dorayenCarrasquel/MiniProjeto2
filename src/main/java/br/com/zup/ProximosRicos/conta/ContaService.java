@@ -20,5 +20,18 @@ public class ContaService {
         }
         return optionalConta.get();
     }
+    public void removerContaPorId (int numeroConta){
+        boolean contaASerRemovida = false;
+        Conta contaRemovida = null;
+        for (Conta conta : contaRepository.findAll()){
+            if (conta.getNumeroConta() == numeroConta){
+                contaASerRemovida = true;
+                contaRemovida = conta;
+            }
+        }
+        if (contaASerRemovida){
+            contaRepository.delete(contaRemovida);
+        }
+    }
 
 }

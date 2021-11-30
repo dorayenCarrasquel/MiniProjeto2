@@ -42,4 +42,9 @@ public class ContaController {
 
         return eventoSaida;
     }
+    @DeleteMapping("/{numeroConta}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removerContaPorId(@PathVariable int numeroConta){
+        contaService.removerContaPorId(numeroConta);
+    }
 }
