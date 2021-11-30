@@ -16,9 +16,9 @@ public class Correntista {
     @Id
     @CPF(message = "CPF inválido.")
     private String cpf;
-    @Size(min = 3, max = 50, message = "Quantidade de caracteres inválido.")
-    @NotNull(message = "Campo obrigatório.")
-    @NotBlank(message = "Este campo não pode ficar em branco.")
+    @Size(min = 3, max = 50, message = "{validacao.nome.size}")
+    @NotNull(message = "{validacao.nome.not-null}")
+    @NotBlank(message = "{validacao.nome.not-blank}")
     private String nome;
 
     public Correntista() {
