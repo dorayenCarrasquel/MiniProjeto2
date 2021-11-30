@@ -35,7 +35,17 @@ public class Conta {
     @ManyToMany (cascade= CascadeType.PERSIST)
     private List<Evento> eventos;
 
+    private double saldo;
+
     public Conta() {
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
     }
 
     public List<Evento> getEventos() {
