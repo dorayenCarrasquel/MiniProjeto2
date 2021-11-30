@@ -20,7 +20,7 @@ public class Evento {
     private int id;
     private LocalDateTime data;
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Este campo não pode ficar vazio.")
+    @NotNull(message = "{validacao.tipoEvento.not-null}")
     private TipoEvento tipoEvento;
     private double saldoDisponivel;
     private double valorEvento;
