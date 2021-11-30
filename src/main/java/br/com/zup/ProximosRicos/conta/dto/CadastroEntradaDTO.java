@@ -3,11 +3,6 @@ package br.com.zup.ProximosRicos.conta.dto;
 import br.com.zup.ProximosRicos.correntista.Correntista;
 import br.com.zup.ProximosRicos.enums.TipoConta;
 
-
-
-
-
-
 public class CadastroEntradaDTO {
 
     private Correntista correntista;
