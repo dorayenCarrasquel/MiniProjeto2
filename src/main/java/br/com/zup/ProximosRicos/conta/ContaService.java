@@ -1,8 +1,10 @@
 package br.com.zup.ProximosRicos.conta;
 
+import br.com.zup.ProximosRicos.evento.Evento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,5 +35,4 @@ public class ContaService {
             contaRepository.delete(contaRemovida);
         }
     }
-
 }
