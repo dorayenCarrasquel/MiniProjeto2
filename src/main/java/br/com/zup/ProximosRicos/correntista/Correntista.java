@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "conrrentistas")
+@Table(name = "correntistas")
 public class Correntista {
     @Id
     @CPF(message = "CPF inválido.")
