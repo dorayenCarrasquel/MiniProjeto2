@@ -32,12 +32,12 @@ public class Conta {
     public Conta() {
     }
 
-    public Extrato getExtrato() {
-        return extrato;
+    public List<Evento> getEventos() {
+        return eventos;
     }
 
-    public void setExtrato(Extrato extrato) {
-        this.extrato = extrato;
+    public void setEventos(List<Evento> eventos) {
+        this.eventos = eventos;
     }
 
     public int getNumeroConta() {
