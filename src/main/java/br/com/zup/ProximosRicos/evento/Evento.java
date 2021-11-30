@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 @Entity
 @Table(name = "eventos")
@@ -18,6 +20,7 @@ public class Evento {
     private int id;
     private LocalDateTime data;
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Este campo não pode ficar vazio.")
     private TipoEvento tipoEvento;
     private double saldoDisponivel;
     private double valorEvento;

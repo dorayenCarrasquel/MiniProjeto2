@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -25,7 +27,9 @@ public class Conta {
     @OneToOne(cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     private Correntista correntista;
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Este campo não pode ficar vazio.")
     private TipoConta tipo;
+    @Valid
     @ManyToMany (cascade= CascadeType.PERSIST)
     private List<Evento> eventos;
 
