@@ -3,7 +3,7 @@ package br.com.zup.ProximosRicos.conta;
 import br.com.zup.ProximosRicos.correntista.Correntista;
 import br.com.zup.ProximosRicos.enums.TipoConta;
 import br.com.zup.ProximosRicos.evento.Evento;
-import br.com.zup.ProximosRicos.extrato.Extrato;
+
 
 
 import javax.persistence.Entity;
