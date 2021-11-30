@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @Table(name = "correntistas")
 public class Correntista {
     @Id
-    @CPF(message = "CPF inválido.")
+    @CPF(message = "{validacao.cpf.cpf}")
     private String cpf;
     @Size(min = 3, max = 50, message = "{validacao.nome.size}")
     @NotNull(message = "{validacao.nome.not-null}")

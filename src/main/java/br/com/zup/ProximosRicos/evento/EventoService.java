@@ -25,9 +25,9 @@ public class EventoService {
             evento.setSaldoDisponivel(evento.getSaldoDisponivel()  + evento.getValorEvento());
             conta.getEventos().add(evento);
         }
-        else if(evento.getTipoEvento() == TipoEvento.EXTRATO) {
-            conta.getEventos();
-        }
+       // else if(evento.getTipoEvento() == TipoEvento.EXTRATO) {
+        //    conta.getEventos();
+      //  }
 
         evento.setData(LocalDateTime.now());
         eventoRepository.save(evento);
