@@ -25,9 +25,11 @@ public class Conta {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int numeroConta;
     @OneToOne(cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @Valid
     private Correntista correntista;
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Este campo não pode ficar vazio.")
+    @Valid
+    @NotNull(message = "{validacao.tipo.not-null}")
     private TipoConta tipo;
     @Valid
     @ManyToMany (cascade= CascadeType.PERSIST)
