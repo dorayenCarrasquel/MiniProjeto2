@@ -2,11 +2,11 @@ package br.com.zup.ProximosRicos.conta.dto;
 
 import br.com.zup.ProximosRicos.correntista.Correntista;
 import br.com.zup.ProximosRicos.enums.TipoConta;
-import br.com.zup.ProximosRicos.extrato.Extrato;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToOne;
+
+
+
+
 
 public class CadastroEntradaDTO {
 
