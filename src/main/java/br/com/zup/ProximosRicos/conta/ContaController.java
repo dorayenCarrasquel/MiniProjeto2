@@ -2,10 +2,12 @@ package br.com.zup.ProximosRicos.conta;
 
 import br.com.zup.ProximosRicos.conta.dto.CadastroEntradaDTO;
 import br.com.zup.ProximosRicos.conta.dto.CadastroSaidaDTO;
+import br.com.zup.ProximosRicos.enums.TipoEvento;
 import br.com.zup.ProximosRicos.evento.Evento;
 import br.com.zup.ProximosRicos.evento.EventoService;
 import br.com.zup.ProximosRicos.evento.dtos.EventoEntrada;
 import br.com.zup.ProximosRicos.evento.dtos.EventoSaida;
+import br.com.zup.ProximosRicos.evento.dtos.ExtratoEntradaDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,10 +36,18 @@ public class ContaController {
 
     @PutMapping("/{numeroConta}")
     @ResponseStatus(HttpStatus.OK)
-    public EventoSaida aplicarEvento (@PathVariable int numeroConta, @RequestBody EventoEntrada eventoEntrada){
+    public EventoSaida aplicarEvento (@PathVariable int numeroConta, @RequestParam(required = false) EventoEntrada eventoEntrada, @RequestParam(required = false)ExtratoEntradaDto extratoEntradaDto){
         Conta conta = contaService.buscarConta(numeroConta);
         Evento evento = modelMapper.map(eventoEntrada, Evento.class);
-        eventoService.aplicarEvento(conta, evento);
+        if (evento.getTipoEvento()== TipoEvento.SAQUE){
+            eventoService.aplicarSaque(conta, evento);
+        }
+        if (evento.getTipoEvento()==TipoEvento.DEPOSITO){
+            eventoService.aplicarDeposito(conta, evento);
+        }
+        eventoService.aplicarExtrato(conta, evento);
+        Evento eventoExtrato = modelMapper.map(extratoEntradaDto, Evento.class);
+
         EventoSaida eventoSaida = modelMapper.map(conta, EventoSaida.class);
 
         return eventoSaida;
