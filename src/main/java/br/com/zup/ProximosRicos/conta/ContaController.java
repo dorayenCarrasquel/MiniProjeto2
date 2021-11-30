@@ -8,6 +8,7 @@ import br.com.zup.ProximosRicos.evento.EventoService;
 import br.com.zup.ProximosRicos.evento.dtos.EventoEntrada;
 import br.com.zup.ProximosRicos.evento.dtos.EventoSaida;
 import br.com.zup.ProximosRicos.evento.dtos.ExtratoEntradaDto;
+import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,5 +53,10 @@ public class ContaController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removerContaPorId(@PathVariable int numeroConta){
         contaService.removerContaPorId(numeroConta);
+    }
+    @GetMapping("/{numeroConta}")
+    public CadastroSaidaDTO mostrarEventoPorIdConta(@PathVariable Integer numeroConta){
+        Evento evento = eventoService.exibirTodosOsCadastros(numeroConta);
+        return modelMapper.map(eventoService.exibirTodosOsCadastros(numeroConta), CadastroSaidaDTO.class);
     }
 }

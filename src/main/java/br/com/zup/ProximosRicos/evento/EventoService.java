@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class EventoService {
@@ -40,10 +42,11 @@ public class EventoService {
         eventoRepository.save(evento);
 
     }
-
-    public void aplicarExtrato(Conta conta, Evento evento ){
-
+    public List<Evento> exibirTodosOsCadastros(Integer numeroConta) {
+        if (numeroConta != null) {
+            return (List<Evento>) eventoRepository.findAllById(numeroConta);
+        }
+        Iterable<Evento> eventos = eventoRepository.findAllById(numeroConta);
+        return (List<Evento>) eventos;
     }
-
-
 }
