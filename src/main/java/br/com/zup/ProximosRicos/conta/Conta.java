@@ -2,6 +2,7 @@ package br.com.zup.ProximosRicos.conta;
 
 import br.com.zup.ProximosRicos.correntista.Correntista;
 import br.com.zup.ProximosRicos.enums.TipoConta;
+import br.com.zup.ProximosRicos.evento.Evento;
 import br.com.zup.ProximosRicos.extrato.Extrato;
 
 
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -24,18 +26,18 @@ public class Conta {
     private Correntista correntista;
     @Enumerated(EnumType.STRING)
     private TipoConta tipo;
-    @OneToOne (cascade= CascadeType.PERSIST)
-    private Extrato extrato;
+    @ManyToMany (cascade= CascadeType.PERSIST)
+    private List<Evento> eventos;
 
     public Conta() {
     }
 
-    public Extrato getExtrato() {
-        return extrato;
+    public List<Evento> getEventos() {
+        return eventos;
     }
 
-    public void setExtrato(Extrato extrato) {
-        this.extrato = extrato;
+    public void setEventos(List<Evento> eventos) {
+        this.eventos = eventos;
     }
 
     public int getNumeroConta() {
