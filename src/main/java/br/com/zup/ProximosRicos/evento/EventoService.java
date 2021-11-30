@@ -3,6 +3,7 @@ package br.com.zup.ProximosRicos.evento;
 import br.com.zup.ProximosRicos.conta.Conta;
 import br.com.zup.ProximosRicos.conta.ContaRepository;
 import br.com.zup.ProximosRicos.enums.TipoEvento;
+import br.com.zup.ProximosRicos.exceptions.ChequeEspecialException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,18 +19,24 @@ public class EventoService {
 
 
     public void aplicarSaque(Conta conta, Evento evento) {
+        evento.setSaldoDisponivel(conta.getSaldo());
         if (evento.getSaldoDisponivel() < evento.getValorEvento()) {
-            throw new RuntimeException("Você entrou no cheque especial, por favor realize um deposito");
+            throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
         }
-        evento.setSaldoDisponivel(evento.getSaldoDisponivel() - evento.getValorEvento());
+        double saque = (evento.getSaldoDisponivel() - evento.getValorEvento());
+        conta.setSaldo(saque);
+        conta.getEventos().add(evento);
+        evento.setData(LocalDateTime.now());
+
         eventoRepository.save(evento);
 
     }
     public void aplicarDeposito(Conta conta, Evento evento) {
-        evento.setSaldoDisponivel(evento.getSaldoDisponivel() + evento.getValorEvento());
-        conta.getEventos().add(evento);
-
+        evento.setSaldoDisponivel(conta.getSaldo());
+        double deposito = (evento.getSaldoDisponivel() + evento.getValorEvento());
         evento.setData(LocalDateTime.now());
+        conta.getEventos().add(evento);
+        conta.setSaldo(deposito);
         eventoRepository.save(evento);
 
     }

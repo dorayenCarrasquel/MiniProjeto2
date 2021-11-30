@@ -36,7 +36,7 @@ public class ContaController {
 
     @PutMapping("/{numeroConta}")
     @ResponseStatus(HttpStatus.OK)
-    public EventoSaida aplicarEvento (@PathVariable int numeroConta, @RequestParam(required = false) EventoEntrada eventoEntrada, @RequestParam(required = false)ExtratoEntradaDto extratoEntradaDto){
+    public EventoSaida aplicarEvento (@PathVariable int numeroConta, @RequestBody EventoEntrada eventoEntrada){
         Conta conta = contaService.buscarConta(numeroConta);
         Evento evento = modelMapper.map(eventoEntrada, Evento.class);
         if (evento.getTipoEvento()== TipoEvento.SAQUE){
@@ -45,11 +45,7 @@ public class ContaController {
         if (evento.getTipoEvento()==TipoEvento.DEPOSITO){
             eventoService.aplicarDeposito(conta, evento);
         }
-        eventoService.aplicarExtrato(conta, evento);
-        Evento eventoExtrato = modelMapper.map(extratoEntradaDto, Evento.class);
-
         EventoSaida eventoSaida = modelMapper.map(conta, EventoSaida.class);
-
         return eventoSaida;
     }
     @DeleteMapping("/{numeroConta}")
