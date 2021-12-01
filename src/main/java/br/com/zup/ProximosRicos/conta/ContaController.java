@@ -7,8 +7,6 @@ import br.com.zup.ProximosRicos.evento.Evento;
 import br.com.zup.ProximosRicos.evento.EventoService;
 import br.com.zup.ProximosRicos.evento.dtos.EventoEntrada;
 import br.com.zup.ProximosRicos.evento.dtos.EventoSaida;
-import br.com.zup.ProximosRicos.evento.dtos.ExtratoEntradaDto;
-import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,9 +55,11 @@ public class ContaController {
     @GetMapping("/{numeroConta}")
     public List<CadastroSaidaDTO> mostrarEventoPorIdConta(@PathVariable int numeroConta){
         List<CadastroSaidaDTO> listaEventos = new ArrayList<>();
-        for (Conta conta : ){
-
+        for (Evento evento : eventoService.exibirTodosOsCadastros(numeroConta)){
+            CadastroSaidaDTO cadastroSaidaDTO = modelMapper.map(evento, CadastroSaidaDTO.class);
+            listaEventos.add(cadastroSaidaDTO);
         }
+        return listaEventos;
     }
 
 }

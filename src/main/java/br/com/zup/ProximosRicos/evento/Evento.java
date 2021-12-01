@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ public class Evento {
     private LocalDateTime data;
     @Enumerated(EnumType.STRING)
     @NotNull(message = "{validacao.tipoEvento.not-null}")
+    @Valid
     private TipoEvento tipoEvento;
     private double saldoDisponivel;
     private double valorEvento;
