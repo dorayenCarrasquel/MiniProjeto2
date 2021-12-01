@@ -39,7 +39,7 @@ public class ContaController {
         return modelMapper.map(contaService.salvarConta(conta), CadastroSaidaDTO.class);
     }
     @PutMapping("/{numeroConta}")
-    @ApiOperation(value = "Método para aplicar eventos na mesma conta,SAQUE - DEPOSITO")
+    @ApiOperation(value = "Método para aplicar eventos na mesma conta, SAQUE - DEPOSITO")
     @ResponseStatus(HttpStatus.OK)
     public EventoSaida aplicarEvento (@PathVariable int numeroConta, @RequestBody EventoEntrada eventoEntrada){
         Conta conta = contaService.buscarConta(numeroConta);
