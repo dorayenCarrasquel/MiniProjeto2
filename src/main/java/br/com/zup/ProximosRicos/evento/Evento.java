@@ -1,7 +1,6 @@
 package br.com.zup.ProximosRicos.evento;
 
 import br.com.zup.ProximosRicos.enums.TipoEvento;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -9,18 +8,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.DecimalMin;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "eventos")
 public class Evento {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private LocalDateTime data;
     @Enumerated(EnumType.STRING)
     @NotNull(message = "{validacao.tipoEvento.not-null}")
+    @Valid
     private TipoEvento tipoEvento;
     private double saldoDisponivel;
     private double valorEvento;

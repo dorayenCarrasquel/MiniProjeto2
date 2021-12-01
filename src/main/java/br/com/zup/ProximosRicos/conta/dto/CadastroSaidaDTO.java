@@ -2,12 +2,10 @@ package br.com.zup.ProximosRicos.conta.dto;
 
 import br.com.zup.ProximosRicos.correntista.Correntista;
 import br.com.zup.ProximosRicos.enums.TipoConta;
-
 import javax.validation.Valid;
 
 
 public class CadastroSaidaDTO {
-
 
     private String numeroConta;
     @Valid

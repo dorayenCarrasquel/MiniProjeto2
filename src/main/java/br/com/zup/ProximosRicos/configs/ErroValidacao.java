@@ -1,6 +1,7 @@
 package br.com.zup.ProximosRicos.configs;
 
 public class ErroValidacao {
+
     private String campo;
     private String mensagem;
 
