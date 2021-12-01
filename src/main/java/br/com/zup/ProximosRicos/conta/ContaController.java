@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/caixa")
@@ -33,8 +35,6 @@ public class ContaController {
         Conta conta = modelMapper.map(cadastroEntradaDTO, Conta.class);
         return modelMapper.map(contaService.salvarConta(conta), CadastroSaidaDTO.class);
     }
-
-
     @PutMapping("/{numeroConta}")
     @ResponseStatus(HttpStatus.OK)
     public EventoSaida aplicarEvento (@PathVariable int numeroConta, @RequestBody EventoEntrada eventoEntrada){
@@ -55,8 +55,11 @@ public class ContaController {
         contaService.removerContaPorId(numeroConta);
     }
     @GetMapping("/{numeroConta}")
-    public CadastroSaidaDTO mostrarEventoPorIdConta(@PathVariable Integer numeroConta){
-        Evento evento = eventoService.exibirTodosOsCadastros(numeroConta);
-        return modelMapper.map(eventoService.exibirTodosOsCadastros(numeroConta), CadastroSaidaDTO.class);
+    public List<CadastroSaidaDTO> mostrarEventoPorIdConta(@PathVariable int numeroConta){
+        List<CadastroSaidaDTO> listaEventos = new ArrayList<>();
+        for (Conta conta : ){
+
+        }
     }
+
 }

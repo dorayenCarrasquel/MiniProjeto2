@@ -15,7 +15,7 @@ public class ContaService {
     public Conta salvarConta (Conta conta){
         return contaRepository.save(conta);
     }
-    public Conta buscarConta(Integer numeroConta){
+    public Conta buscarConta(int numeroConta){
         Optional<Conta> optionalConta = contaRepository.findById(numeroConta);
         if (optionalConta.isEmpty()){
             throw new RuntimeException("Conta não registrada");

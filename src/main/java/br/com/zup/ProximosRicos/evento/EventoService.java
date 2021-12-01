@@ -31,7 +31,6 @@ public class EventoService {
         evento.setData(LocalDateTime.now());
 
         eventoRepository.save(evento);
-
     }
     public void aplicarDeposito(Conta conta, Evento evento) {
         evento.setSaldoDisponivel(conta.getSaldo());
@@ -40,7 +39,6 @@ public class EventoService {
         conta.getEventos().add(evento);
         conta.setSaldo(deposito);
         eventoRepository.save(evento);
-
     }
     public List<Evento> exibirTodosOsCadastros(Integer numeroConta) {
         if (numeroConta != null) {
@@ -50,3 +48,4 @@ public class EventoService {
         return (List<Evento>) eventos;
     }
 }
+
