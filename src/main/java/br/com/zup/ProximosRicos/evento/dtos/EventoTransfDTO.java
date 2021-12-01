@@ -1,15 +1,23 @@
 package br.com.zup.ProximosRicos.evento.dtos;
 
-import br.com.zup.ProximosRicos.conta.Conta;
+
 import br.com.zup.ProximosRicos.enums.TipoEvento;
 
 public class EventoTransfDTO {
-    private Conta contaTranferencia;
+    private int contaTranferencia;
     private TipoEvento tipoEvento;
     private double valorTransferencia;
-    private Conta contaDestinoTransferencia;
+    private int contaDestinoTransferencia;
 
     public EventoTransfDTO() {
+    }
+
+    public int getContaTranferencia() {
+        return contaTranferencia;
+    }
+
+    public void setContaTranferencia(int contaTranferencia) {
+        this.contaTranferencia = contaTranferencia;
     }
 
     public TipoEvento getTipoEvento() {
@@ -20,14 +28,6 @@ public class EventoTransfDTO {
         this.tipoEvento = tipoEvento;
     }
 
-    public Conta getContaTranferencia() {
-        return contaTranferencia;
-    }
-
-    public void setContaTranferencia(Conta contaTranferencia) {
-        this.contaTranferencia = contaTranferencia;
-    }
-
     public double getValorTransferencia() {
         return valorTransferencia;
     }
@@ -36,11 +36,11 @@ public class EventoTransfDTO {
         this.valorTransferencia = valorTransferencia;
     }
 
-    public Conta getContaDestinoTransferencia() {
+    public int getContaDestinoTransferencia() {
         return contaDestinoTransferencia;
     }
 
-    public void setContaDestinoTransferencia(Conta contaDestinoTransferencia) {
+    public void setContaDestinoTransferencia(int contaDestinoTransferencia) {
         this.contaDestinoTransferencia = contaDestinoTransferencia;
     }
 }
