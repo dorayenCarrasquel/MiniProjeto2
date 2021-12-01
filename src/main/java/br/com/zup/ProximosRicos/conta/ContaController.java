@@ -7,6 +7,7 @@ import br.com.zup.ProximosRicos.evento.Evento;
 import br.com.zup.ProximosRicos.evento.EventoService;
 import br.com.zup.ProximosRicos.evento.dtos.EventoEntrada;
 import br.com.zup.ProximosRicos.evento.dtos.EventoSaida;
+import br.com.zup.ProximosRicos.evento.dtos.EventoTransfDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,6 +56,22 @@ public class ContaController {
     public EventoSaida mostrarEventoPorIdConta(@PathVariable int numeroConta){
         Conta conta = contaService.buscarConta(numeroConta);
         EventoSaida eventoSaida = modelMapper.map(conta, EventoSaida.class);
+        return eventoSaida;
+    }
+
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public EventoSaida aplicarEvento (@RequestBody EventoTransfDTO eventoTransfDTO){
+        int contaTransferenciaID = eventoTransfDTO.getContaTranferencia();
+        Conta contaTransferencia = contaService.buscarConta(contaTransferenciaID);
+        int contaDestinoID = eventoTransfDTO.getContaDestinoTransferencia();
+        Conta contaDestino = contaService.buscarConta(contaDestinoID);
+        Evento evento = modelMapper.map(eventoTransfDTO, Evento.class);
+
+        if (evento.getTipoEvento()== TipoEvento.TRANSFERENCIA){
+            eventoService.aplicarTransferencia(contaTransferencia, evento, contaDestino);
+        }
+        EventoSaida eventoSaida = modelMapper.map(contaTransferencia, EventoSaida.class);
         return eventoSaida;
     }
 }
