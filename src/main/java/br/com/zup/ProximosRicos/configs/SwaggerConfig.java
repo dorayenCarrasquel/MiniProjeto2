@@ -33,12 +33,12 @@ public class SwaggerConfig {
         return new ArrayList<ResponseMessage>() {{
             add(new ResponseMessageBuilder()
                     .code(500)
-                    .message("500 message")
+                    .message("Error, incompatibilidade")
                     .responseModel(new ModelRef("Error"))
                     .build());
             add(new ResponseMessageBuilder()
                     .code(403)
-                    .message("Forbidden!")
+                    .message("Prohibido!, accesso não autorizado")
                     .build());
         }};
     }
