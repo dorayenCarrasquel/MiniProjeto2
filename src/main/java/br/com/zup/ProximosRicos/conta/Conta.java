@@ -3,9 +3,6 @@ package br.com.zup.ProximosRicos.conta;
 import br.com.zup.ProximosRicos.correntista.Correntista;
 import br.com.zup.ProximosRicos.enums.TipoConta;
 import br.com.zup.ProximosRicos.evento.Evento;
-
-
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,10 +14,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-
 @Entity
 @Table(name = "contas")
 public class Conta {
+
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int numeroConta;
@@ -34,7 +31,6 @@ public class Conta {
     @Valid
     @ManyToMany (cascade= CascadeType.PERSIST)
     private List<Evento> eventos;
-
     private double saldo;
 
     public Conta() {

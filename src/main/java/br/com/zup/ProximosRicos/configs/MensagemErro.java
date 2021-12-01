@@ -1,6 +1,7 @@
 package br.com.zup.ProximosRicos.configs;
 
 public class MensagemErro {
+
     private String mensagemErro;
 
     public MensagemErro(String mensagemErro) {

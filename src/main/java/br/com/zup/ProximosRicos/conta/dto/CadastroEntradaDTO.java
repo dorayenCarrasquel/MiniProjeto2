@@ -2,7 +2,6 @@ package br.com.zup.ProximosRicos.conta.dto;
 
 import br.com.zup.ProximosRicos.correntista.Correntista;
 import br.com.zup.ProximosRicos.enums.TipoConta;
-
 import javax.validation.Valid;
 
 public class CadastroEntradaDTO {
@@ -11,7 +10,6 @@ public class CadastroEntradaDTO {
     private Correntista correntista;
     @Valid
     private TipoConta tipo;
-
 
     public CadastroEntradaDTO() {
     }

@@ -1,6 +1,5 @@
 package br.com.zup.ProximosRicos.configs;
 
-
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +17,6 @@ public class ConfiguracaoMensagensValidacao {
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
-
     @Bean
     public LocalValidatorFactoryBean getValidator() {
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();

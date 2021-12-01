@@ -1,12 +1,12 @@
 package br.com.zup.ProximosRicos.evento.dtos;
 
 import br.com.zup.ProximosRicos.enums.TipoEvento;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class EventoEntrada {
+
     @Valid
     @NotBlank(message = "O valor debe ser preenchido")
     private TipoEvento tipoEvento;

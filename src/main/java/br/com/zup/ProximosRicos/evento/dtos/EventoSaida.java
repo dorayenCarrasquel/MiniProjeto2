@@ -1,9 +1,8 @@
 package br.com.zup.ProximosRicos.evento.dtos;
+
 import br.com.zup.ProximosRicos.conta.Conta;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 
 public class EventoSaida {
 
