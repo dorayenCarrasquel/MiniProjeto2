@@ -52,12 +52,9 @@ public class ContaController {
         contaService.removerContaPorId(numeroConta);
     }
     @GetMapping("/{numeroConta}")
-    public List<CadastroSaidaDTO> mostrarEventoPorIdConta(@PathVariable int numeroConta){
-        List<CadastroSaidaDTO> listaEventos = new ArrayList<>();
-        for (Evento evento : eventoService.exibirTodosOsCadastros(numeroConta)){
-            CadastroSaidaDTO cadastroSaidaDTO = modelMapper.map(evento, CadastroSaidaDTO.class);
-            listaEventos.add(cadastroSaidaDTO);
-        }
-        return listaEventos;
+    public EventoSaida mostrarEventoPorIdConta(@PathVariable int numeroConta){
+        Conta conta = contaService.buscarConta(numeroConta);
+        EventoSaida eventoSaida = modelMapper.map(conta, EventoSaida.class);
+        return eventoSaida;
     }
 }
