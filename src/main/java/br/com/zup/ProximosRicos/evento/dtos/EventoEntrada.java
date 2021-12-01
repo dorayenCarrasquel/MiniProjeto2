@@ -8,9 +8,9 @@ import javax.validation.constraints.NotNull;
 
 public class EventoEntrada {
     @Valid
-    @NotBlank(message = "O valor debe ser preenchido")
+    @NotBlank(message = "{validacao.tipoEvento.not-blank}")
     private TipoEvento tipoEvento;
-    @NotNull(message = "O valor debe ser preenchido")
+    @NotNull(message = "{validacao.valorEvento.not-null}")
     private double valorEvento;
 
     public EventoEntrada() {
