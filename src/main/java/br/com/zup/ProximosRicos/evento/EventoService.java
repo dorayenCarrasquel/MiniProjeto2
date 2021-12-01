@@ -44,7 +44,7 @@ public class EventoService {
     }
     public List<Evento> exibirTodosOsCadastros(Integer numeroConta) {
         if (numeroConta != null) {
-            return (List<Evento>) eventoRepository.findAllById(numeroConta);
+            return eventoRepository.findAllById(numeroConta);
         }
         Iterable<Evento> eventos = eventoRepository.findAllById(numeroConta);
         return (List<Evento>) eventos;
