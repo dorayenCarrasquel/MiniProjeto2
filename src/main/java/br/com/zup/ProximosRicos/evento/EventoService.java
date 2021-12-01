@@ -42,5 +42,13 @@ public class EventoService {
         Iterable<Evento> eventos = eventoRepository.findAllById(numeroConta);
         return (List<Evento>) eventos;
     }
+
+    public void aplicarTransferencia(Conta contaTransferencia, Evento evento, Conta contaDestino) {
+       aplicarSaque(contaTransferencia,evento);
+       aplicarDeposito(contaDestino,evento);
+       eventoRepository.save(evento);
+    }
+
+
 }
 
