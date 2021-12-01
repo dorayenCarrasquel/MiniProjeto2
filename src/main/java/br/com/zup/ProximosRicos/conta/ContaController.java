@@ -60,11 +60,33 @@ public class ContaController {
         contaService.removerContaPorId(numeroConta);
     }
     @GetMapping("/{numeroConta}")
-    @ApiOperation(value = "Método para pesquisar por número de conta")
-    public EventoSaida mostrarEventoPorIdConta(@PathVariable int numeroConta){
+    @ApiOperation(value = "Método para pesquisar os eventos de uma conta")
+    public List<Evento> mostrarEventoPorIdConta(@PathVariable int numeroConta,
+                                                @RequestParam(required = false) TipoEvento tipoEvento){
+
+        //Descubir a conta.
         Conta conta = contaService.buscarConta(numeroConta);
-        EventoSaida eventoSaida = modelMapper.map(conta, EventoSaida.class);
-        return eventoSaida;
+
+        //Criar uma lista de eventos
+        List<Evento> eventos =  new ArrayList<>();
+
+        //Caso TipoEvento(@RequestParam) seja preenchido, este if fara filtragen
+        // e adiscionará a lista de eventos só os filtrados
+        if(tipoEvento != null){
+            for (Evento evento: conta.getEventos()){
+                if (evento.getTipoEvento().equals(tipoEvento)){
+                    eventos.add(evento);
+                }
+            }
+        }//Caso TipoEvento(@RequestParam) não tenha sido prenchido
+        // este foreach adicionara todos os eventos a lista de evento
+        else {
+            for (Evento evento: conta.getEventos()){
+                eventos.add(evento);
+            }
+        }
+
+        return eventos;
     }
 
     @PutMapping
