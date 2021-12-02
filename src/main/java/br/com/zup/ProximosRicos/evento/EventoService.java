@@ -17,17 +17,6 @@ public class EventoService {
     @Autowired
     private ContaRepository contaRepository;
 
-    public void aplicarSaque(Conta conta, Evento evento) {
-        evento.setSaldoDisponivel(conta.getSaldo());
-        if (evento.getSaldoDisponivel() < evento.getValorEvento()) {
-            throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
-        }
-        double saque = (evento.getSaldoDisponivel() - evento.getValorEvento());
-        conta.setSaldo(saque);
-        conta.getEventos().add(evento);
-        evento.setData(LocalDateTime.now());
-        eventoRepository.save(evento);
-    }
     public List<Evento> exibirTodosOsCadastros(Integer numeroConta) {
         if (numeroConta != null) {
             return eventoRepository.findAllById(numeroConta);

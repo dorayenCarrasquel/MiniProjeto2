@@ -5,6 +5,7 @@ import br.com.zup.ProximosRicos.enums.TipoEvento;
 import br.com.zup.ProximosRicos.evento.Evento;
 import br.com.zup.ProximosRicos.evento.EventoRepository;
 import br.com.zup.ProximosRicos.evento.EventoService;
+import br.com.zup.ProximosRicos.exceptions.ChequeEspecialException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +33,19 @@ public class ContaService {
         return optionalConta.get();
     }
     public void aplicarTransferencia(Conta contaTransferencia, Evento evento, Conta contaDestino) {
-        eventoService.aplicarSaque(contaTransferencia,evento);
+        aplicarSaque(contaTransferencia,evento);
         aplicarDeposito(contaDestino,evento);
+        eventoRepository.save(evento);
+    }
+    public void aplicarSaque(Conta conta, Evento evento) {
+        evento.setSaldoDisponivel(conta.getSaldo());
+        if (evento.getSaldoDisponivel() < evento.getValorEvento()) {
+            throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
+        }
+        double saque = (evento.getSaldoDisponivel() - evento.getValorEvento());
+        conta.setSaldo(saque);
+        conta.getEventos().add(evento);
+        evento.setData(LocalDateTime.now());
         eventoRepository.save(evento);
     }
     public void aplicarDeposito(Conta conta, Evento evento) {
