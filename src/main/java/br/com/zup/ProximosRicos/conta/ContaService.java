@@ -54,6 +54,16 @@ public class ContaService {
 
         eventoService.gerarEvento(TipoEvento.DEPOSITO, valorAtual, valorEvento, conta);
     }
+    public void aplicarTransferencia(int numeroContaSaida, Integer numeroContaEntrada, double valorEventoSaida, double valorEventoEntrada) {
+
+
+        Optional<Conta> contaEntradaEncontrada = contaRepository.findById(numeroContaEntrada);
+        if (contaEntradaEncontrada.isPresent()){
+            valorEventoEntrada = contaEntradaEncontrada.get().getSaldo()
+
+        }
+
+    }
     public void removerContaPorId (int numeroConta){
         boolean contaASerRemovida = false;
         Conta contaRemovida = null;
@@ -66,16 +76,5 @@ public class ContaService {
         if (contaASerRemovida){
             contaRepository.delete(contaRemovida);
         }
-    }
-        public void aplicarTransferencia(int numeroContaEntrada, int numeroContaSaida, double valorEvento) {
-
-        Conta contaSaque = new Conta();
-        Conta contaDeposito = new Conta();
-
-        aplicarSaque(numeroContaSaida, valorEvento);
-        eventoService.gerarEvento(TipoEvento.TRANSFERENCIA, , valorSaida, conta);
-
-        aplicarDeposito(numeroContaEntrada, valorEvento);
-        eventoService.gerarEvento(TipoEvento.TRANSFERENCIA, valorAtual, valorSaida, conta);
     }
 }
