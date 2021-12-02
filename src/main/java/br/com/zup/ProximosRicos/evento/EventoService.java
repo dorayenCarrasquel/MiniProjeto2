@@ -28,26 +28,12 @@ public class EventoService {
         evento.setData(LocalDateTime.now());
         eventoRepository.save(evento);
     }
-    public void aplicarDeposito(Conta conta, Evento evento) {
-        evento.setSaldoDisponivel(conta.getSaldo());
-        double deposito = (evento.getSaldoDisponivel() + evento.getValorEvento());
-        evento.setData(LocalDateTime.now());
-        conta.getEventos().add(evento);
-        conta.setSaldo(deposito);
-        eventoRepository.save(evento);
-    }
     public List<Evento> exibirTodosOsCadastros(Integer numeroConta) {
         if (numeroConta != null) {
             return eventoRepository.findAllById(numeroConta);
         }
         Iterable<Evento> eventos = eventoRepository.findAllById(numeroConta);
         return (List<Evento>) eventos;
-    }
-
-    public void aplicarTransferencia(Conta contaTransferencia, Evento evento, Conta contaDestino) {
-       aplicarSaque(contaTransferencia,evento);
-       aplicarDeposito(contaDestino,evento);
-       eventoRepository.save(evento);
     }
     public void gerarEvento(TipoEvento tipoEvento, double valorAtual, double valorEvento, Conta conta){
         Evento evento = new Evento();

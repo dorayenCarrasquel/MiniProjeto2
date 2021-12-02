@@ -4,6 +4,7 @@ package br.com.zup.ProximosRicos.conta;
 import br.com.zup.ProximosRicos.enums.TipoEvento;
 import br.com.zup.ProximosRicos.evento.Evento;
 import br.com.zup.ProximosRicos.evento.EventoRepository;
+import br.com.zup.ProximosRicos.evento.EventoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +13,13 @@ import java.util.Optional;
 
 @Service
 public class ContaService {
+
     @Autowired
     private ContaRepository contaRepository;
     @Autowired
     private EventoRepository eventoRepository;
-
+    @Autowired
+    private EventoService eventoService;
 
     public Conta salvarConta (Conta conta){
         return contaRepository.save(conta);
@@ -27,6 +30,11 @@ public class ContaService {
             throw new RuntimeException("Conta não registrada");
         }
         return optionalConta.get();
+    }
+    public void aplicarTransferencia(Conta contaTransferencia, Evento evento, Conta contaDestino) {
+        eventoService.aplicarSaque(contaTransferencia,evento);
+        eventoService.aplicarDeposito(contaDestino,evento);
+        eventoRepository.save(evento);
     }
     public void removerContaPorId (int numeroConta){
         boolean contaASerRemovida = false;

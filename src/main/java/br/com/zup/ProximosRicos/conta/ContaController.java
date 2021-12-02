@@ -100,7 +100,7 @@ public class ContaController {
         Evento evento = modelMapper.map(eventoTransfDTO, Evento.class);
 
         if (evento.getTipoEvento()== TipoEvento.TRANSFERENCIA){
-            eventoService.aplicarTransferencia(contaTransferencia, evento, contaDestino);
+            contaService.aplicarTransferencia(contaTransferencia, evento, contaDestino);
         }
         EventoSaida eventoSaida = modelMapper.map(contaTransferencia, EventoSaida.class);
         return eventoSaida;
