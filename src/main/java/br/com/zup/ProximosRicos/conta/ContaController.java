@@ -5,8 +5,8 @@ import br.com.zup.ProximosRicos.conta.dto.CadastroSaidaDTO;
 import br.com.zup.ProximosRicos.enums.TipoEvento;
 import br.com.zup.ProximosRicos.evento.Evento;
 import br.com.zup.ProximosRicos.evento.EventoService;
-import br.com.zup.ProximosRicos.evento.dtos.EventoEntrada;
-import br.com.zup.ProximosRicos.evento.dtos.EventoSaida;
+import br.com.zup.ProximosRicos.evento.dtos.EventoEntradaDTO;
+import br.com.zup.ProximosRicos.evento.dtos.EventoSaidaDTO;
 import br.com.zup.ProximosRicos.evento.dtos.EventoTransfDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,17 +41,17 @@ public class ContaController {
     @PutMapping("/{numeroConta}")
     @ApiOperation(value = "Método para aplicar eventos na mesma conta, SAQUE - DEPOSITO")
     @ResponseStatus(HttpStatus.OK)
-    public EventoSaida aplicarEvento (@PathVariable int numeroConta, @RequestBody EventoEntrada eventoEntrada){
+    public EventoSaidaDTO aplicarEvento (@PathVariable int numeroConta, @RequestBody EventoEntradaDTO eventoEntradaDTO){
         Conta conta = contaService.buscarConta(numeroConta);
-        Evento evento = modelMapper.map(eventoEntrada, Evento.class);
+        Evento evento = modelMapper.map(eventoEntradaDTO, Evento.class);
         if (evento.getTipoEvento()== TipoEvento.SAQUE){
-            eventoService.aplicarSaque(conta, evento);
+            contaService.aplicarSaque(conta, evento);
         }
         if (evento.getTipoEvento()==TipoEvento.DEPOSITO){
-            eventoService.aplicarDeposito(conta, evento);
+            contaService.aplicarDeposito(conta, evento);
         }
-        EventoSaida eventoSaida = modelMapper.map(conta, EventoSaida.class);
-        return eventoSaida;
+        EventoSaidaDTO eventoSaidaDTO = modelMapper.map(conta, EventoSaidaDTO.class);
+        return eventoSaidaDTO;
     }
     @DeleteMapping("/{numeroConta}")
     @ApiOperation(value = "Método para deletar uma conta")
@@ -92,7 +92,7 @@ public class ContaController {
     @PutMapping
     @ApiOperation(value = "Método para aplicar eventos entre diferentes contas, TRANSFERENCIA")
     @ResponseStatus(HttpStatus.OK)
-    public EventoSaida aplicarEvento (@RequestBody EventoTransfDTO eventoTransfDTO){
+    public EventoSaidaDTO aplicarEvento (@RequestBody EventoTransfDTO eventoTransfDTO){
         int contaTransferenciaID = eventoTransfDTO.getContaTranferencia();
         Conta contaTransferencia = contaService.buscarConta(contaTransferenciaID);
         int contaDestinoID = eventoTransfDTO.getContaDestinoTransferencia();
@@ -100,9 +100,9 @@ public class ContaController {
         Evento evento = modelMapper.map(eventoTransfDTO, Evento.class);
 
         if (evento.getTipoEvento()== TipoEvento.TRANSFERENCIA){
-            eventoService.aplicarTransferencia(contaTransferencia, evento, contaDestino);
+            contaService.aplicarTransferencia(contaTransferencia, evento, contaDestino);
         }
-        EventoSaida eventoSaida = modelMapper.map(contaTransferencia, EventoSaida.class);
-        return eventoSaida;
+        EventoSaidaDTO eventoSaidaDTO = modelMapper.map(contaTransferencia, EventoSaidaDTO.class);
+        return eventoSaidaDTO;
     }
 }
