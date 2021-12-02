@@ -41,15 +41,15 @@ public class ContaController {
     @PutMapping("/{numeroConta}")
     @ApiOperation(value = "Método para aplicar eventos na mesma conta, SAQUE - DEPOSITO")
     @ResponseStatus(HttpStatus.OK)
-    public EventoSaidaDTO aplicarEvento (@PathVariable int numeroConta, @RequestBody EventoEntradaDTO eventoEntradaDTO){
+    public EventoSaidaDTO aplicarEventoSaqueDeposito (@PathVariable int numeroConta, @RequestBody EventoEntradaDTO eventoEntradaDTO){
 
-        double valorSaida = eventoEntradaDTO.getValorEvento();
+        double valorEvento = eventoEntradaDTO.getValorEvento();
 
         if (eventoEntradaDTO.getTipoEvento()== TipoEvento.SAQUE){
-            contaService.aplicarSaque(numeroConta, valorSaida);
+            contaService.aplicarSaque(numeroConta, valorEvento);
         }
-        if (eventoEntradaDTO.getTipoEvento()==TipoEvento.DEPOSITO){
-            contaService.aplicarDeposito(numeroConta, valorSaida);
+        if (eventoEntradaDTO.getTipoEvento()== TipoEvento.DEPOSITO){
+            contaService.aplicarDeposito(numeroConta, valorEvento);
         }
         EventoSaidaDTO eventoSaidaDTO = modelMapper.map(eventoEntradaDTO, EventoSaidaDTO.class);
         return eventoSaidaDTO;

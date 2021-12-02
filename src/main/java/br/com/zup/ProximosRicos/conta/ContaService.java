@@ -41,7 +41,7 @@ public class ContaService {
         Optional<Conta> contaOptional = contaRepository.findById(numeroConta);
         Conta contaOp = contaOptional.get();
         double valorAtual = contaOp.getSaldo();
-        contaOp.setSaldo(contaOp.getNumeroConta() - valorEvento);
+        contaOp.setSaldo(valorAtual - valorEvento);
 
         eventoService.gerarEvento(TipoEvento.SAQUE, valorAtual, valorEvento, contaOp);
     }
@@ -50,7 +50,7 @@ public class ContaService {
         Optional<Conta> contaOptional = contaRepository.findById(numeroConta);
         Conta conta = contaOptional.get();
         double valorAtual = conta.getSaldo();
-        conta.setSaldo(conta.getNumeroConta() + valorEvento);
+        conta.setSaldo(valorAtual + valorEvento);
 
         eventoService.gerarEvento(TipoEvento.DEPOSITO, valorAtual, valorEvento, conta);
     }
@@ -67,22 +67,15 @@ public class ContaService {
             contaRepository.delete(contaRemovida);
         }
     }
-//    public void aplicarTransferencia(int numeroContaEntrada, int numeroContaSaida, double valorEvento) {
-//
-//        Conta contaSaque = new Conta();
-//        Conta contaDeposito = new Conta();
-//
-//        aplicarSaque(numeroContaSaida, valorEvento);
-//        eventoService.gerarEvento(TipoEvento.TRANSFERENCIA, , valorSaida, conta);
-//        aplicarDeposito(numeroContaEntrada, valorEvento);
-//
-//        eventoService.gerarEvento(TipoEvento.TRANSFERENCIA, valorAtual, valorSaida, conta);
-//    }
-//    public List<Evento> exibirTodosOsCadastros(Integer numeroConta) {
-//        if (numeroConta != null) {
-//            return eventoRepository.findAllById(numeroConta);
-//        }
-//        Iterable<Evento> eventos = eventoRepository.findAllById(numeroConta);
-//        return (List<Evento>) eventos;
-//    }
+        public void aplicarTransferencia(int numeroContaEntrada, int numeroContaSaida, double valorEvento) {
+
+        Conta contaSaque = new Conta();
+        Conta contaDeposito = new Conta();
+
+        aplicarSaque(numeroContaSaida, valorEvento);
+        eventoService.gerarEvento(TipoEvento.TRANSFERENCIA, , valorSaida, conta);
+
+        aplicarDeposito(numeroContaEntrada, valorEvento);
+        eventoService.gerarEvento(TipoEvento.TRANSFERENCIA, valorAtual, valorSaida, conta);
+    }
 }
