@@ -5,6 +5,7 @@ import br.com.zup.ProximosRicos.evento.EventoRepository;
 import br.com.zup.ProximosRicos.evento.EventoService;
 import br.com.zup.ProximosRicos.exceptions.ChequeEspecialException;
 import br.com.zup.ProximosRicos.exceptions.ContaNaoEncontradaException;
+import br.com.zup.ProximosRicos.exceptions.TransferenciaMesmaContaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
@@ -87,7 +88,7 @@ public class ContaService {
                             valorEvento, contaSaidaEncontrada.get());
 
                 }else if (contaSaidaEncontrada.get().getNumeroConta() == numeroContaSaida){
-                    throw new RuntimeException("Não é possível fazer transferência para a própria conta.");
+                    throw new TransferenciaMesmaContaException("Não é possível fazer transferência para a própria conta.");
                 }
             }
         }
