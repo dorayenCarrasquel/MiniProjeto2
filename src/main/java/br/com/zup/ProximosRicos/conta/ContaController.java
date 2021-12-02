@@ -96,9 +96,9 @@ public class ContaController {
                 eventos.add(evento);
             }
         }
-
         return eventos;
     }
+
        @PutMapping
         @ApiOperation(value = "Método para aplicar eventos entre diferentes contas, TRANSFERENCIA")
         @ResponseStatus(HttpStatus.OK)
