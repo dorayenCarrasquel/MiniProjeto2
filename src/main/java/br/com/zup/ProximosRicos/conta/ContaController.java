@@ -93,20 +93,20 @@ public class ContaController {
 
         return eventos;
     }
-    //   @PutMapping
-    //    @ApiOperation(value = "Método para aplicar eventos entre diferentes contas, TRANSFERENCIA")
-    //    @ResponseStatus(HttpStatus.OK)
-    //    public EventoSaidaDTO aplicarEvento (@RequestBody EventoTransfDTO eventoTransfDTO){
-    //        int contaTransferenciaID = eventoTransfDTO.getContaTranferencia();
-    //        Conta contaTransferencia = contaService.buscarConta(contaTransferenciaID);
-    //        int contaDestinoID = eventoTransfDTO.getContaDestinoTransferencia();
-    //        Conta contaDestino = contaService.buscarConta(contaDestinoID);
-    //        Evento evento = modelMapper.map(eventoTransfDTO, Evento.class);
-    //
-    //        if (evento.getTipoEvento()== TipoEvento.TRANSFERENCIA){
-    //            contaService.aplicarTransferencia(contaTransferencia, evento, contaDestino);
-    //        }
-    //        EventoSaidaDTO eventoSaidaDTO = modelMapper.map(contaTransferencia, EventoSaidaDTO.class);
-    //        return eventoSaidaDTO;
-    //    }
+       @PutMapping
+        @ApiOperation(value = "Método para aplicar eventos entre diferentes contas, TRANSFERENCIA")
+        @ResponseStatus(HttpStatus.OK)
+        public EventoSaidaDTO aplicarEventoTransferencia (@RequestBody EventoTransfDTO eventoTransfDTO){
+            int contaTransferenciaID = eventoTransfDTO.getContaTranferencia();
+            int contaDestinoID = eventoTransfDTO.getContaDestinoTransferencia();
+
+            Conta contaTransferencia = contaService.buscarConta(contaTransferenciaID);
+            Evento evento = modelMapper.map(eventoTransfDTO, Evento.class);
+
+            if (evento.getTipoEvento()== TipoEvento.TRANSFERENCIA){
+                contaService.aplicarTransferencia(contaTransferenciaID, contaDestinoID, eventoTransfDTO.getValorTransferencia());
+            }
+            EventoSaidaDTO eventoSaidaDTO = modelMapper.map(contaTransferencia, EventoSaidaDTO.class);
+            return eventoSaidaDTO;
+        }
 }
