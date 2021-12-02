@@ -1,5 +1,6 @@
 package br.com.zup.ProximosRicos.conta;
 
+import br.com.zup.ProximosRicos.enums.TipoConta;
 import br.com.zup.ProximosRicos.enums.TipoEvento;
 import br.com.zup.ProximosRicos.evento.EventoRepository;
 import br.com.zup.ProximosRicos.evento.EventoService;
@@ -8,6 +9,7 @@ import br.com.zup.ProximosRicos.exceptions.ContaNaoEncontradaException;
 import br.com.zup.ProximosRicos.exceptions.TransferenciaMesmaContaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
 
@@ -32,7 +34,7 @@ public class ContaService {
 
     public Conta buscarConta(int numeroConta) {
         Optional<Conta> optionalConta = contaRepository.findById(numeroConta);
-        if (optionalConta.isEmpty()){
+        if (optionalConta.isEmpty()) {
             throw new ContaNaoEncontradaException("Conta não encontrada.");
         }
         return optionalConta.get();
@@ -72,27 +74,32 @@ public class ContaService {
         if (contaEntradaEncontrada.isPresent()) {
             Optional<Conta> contaSaidaEncontrada = contaRepository.findById(numeroContaSaida);
 
-            if (contaSaidaEncontrada.isPresent()){
+            //Se ambas as contas forem do tipo Conta Corrente, a pessoa que deseja transferir
+            // irá receber uma taxa do banco de 10%
+            if (contaSaidaEncontrada.isPresent()) {
 
-                //Estrutura de decisão que impede que o usuário transifira dinheiro para ele mesmo.
-                if (contaSaidaEncontrada.get().getNumeroConta() != numeroContaSaida){
+                if (contaSaidaEncontrada.get().getNumeroConta() == numeroContaEntrada) {
+                    throw new TransferenciaMesmaContaException("Não é possível fazer transferência para a própria conta.");
+                }
+                if (contaSaidaEncontrada.get().getSaldo() <= 0 || contaSaidaEncontrada.get().getSaldo() < valorEvento){
+                    throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
+                }
+                //Caso ambas as contas sejam encontradas, irá fazer a soma/subtração do saldo atual,
+                //e irá criar um novo evento de transfererência saida/entrada para ambas as contas.
+                contaEntradaEncontrada.get().setSaldo(contaEntradaEncontrada.get().getSaldo() + valorEvento);
+                eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_ENTRADA, contaEntradaEncontrada.get().getSaldo(),
+                        valorEvento, contaEntradaEncontrada.get());
 
-                    //Caso ambas as contas sejam encontradas, irá fazer a soma/subtração do saldo atual,
-                    //e irá criar um novo evento de transfererência saida/entrada para ambas as contas.
-                    contaEntradaEncontrada.get().setSaldo(contaEntradaEncontrada.get().getSaldo() + valorEvento);
-                    eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_ENTRADA, contaEntradaEncontrada.get().getSaldo(),
-                            valorEvento, contaEntradaEncontrada.get());
-
+                if (contaEntradaEncontrada.get().getTipo() == TipoConta.CONTA_CORRENTE){
+                    valorEvento = valorEvento * 1.10;
+                }
                     contaSaidaEncontrada.get().setSaldo(contaSaidaEncontrada.get().getSaldo() - valorEvento);
                     eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_SAIDA, contaSaidaEncontrada.get().getSaldo(),
                             valorEvento, contaSaidaEncontrada.get());
-
-                }else if (contaSaidaEncontrada.get().getNumeroConta() == numeroContaSaida){
-                    throw new TransferenciaMesmaContaException("Não é possível fazer transferência para a própria conta.");
-                }
             }
         }
     }
+
 
     public void removerContaPorId(int numeroConta) {
         boolean contaASerRemovida = false;
