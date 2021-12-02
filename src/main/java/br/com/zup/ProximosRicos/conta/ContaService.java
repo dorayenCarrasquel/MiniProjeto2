@@ -41,19 +41,4 @@ public class ContaService {
             contaRepository.delete(contaRemovida);
         }
     }
-
-    public void gerarEvento(TipoEvento tipoEvento, double valorAtual, double valorEvento, Conta conta){
-        Evento evento = new Evento();
-        evento.setTipoEvento(tipoEvento);
-        evento.setSaldoDisponivel(valorAtual);
-        evento.setValorEvento(valorEvento);
-        evento.setData(LocalDateTime.now());
-        conta.getEventos().add(evento);
-
-        eventoRepository.save(evento);
-    }
-
-
-
-
 }
