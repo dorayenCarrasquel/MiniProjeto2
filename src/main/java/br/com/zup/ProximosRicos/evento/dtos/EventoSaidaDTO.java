@@ -4,13 +4,13 @@ import br.com.zup.ProximosRicos.conta.Conta;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.validation.Valid;
 
-public class EventoSaida {
+public class EventoSaidaDTO {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Valid
     private Conta conta;
 
-    public EventoSaida() {
+    public EventoSaidaDTO() {
 
     }
 

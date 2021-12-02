@@ -5,7 +5,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class EventoEntrada {
+public class EventoEntradaDTO {
 
     @Valid
     @NotBlank(message = "{validacao.tipoEvento.not-blank}")
@@ -13,7 +13,7 @@ public class EventoEntrada {
     @NotNull(message = "{validacao.valorEvento.not-null}")
     private double valorEvento;
 
-    public EventoEntrada() {
+    public EventoEntradaDTO() {
 
     }
 
