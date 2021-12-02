@@ -2,6 +2,7 @@ package br.com.zup.ProximosRicos.configs;
 
 import br.com.zup.ProximosRicos.exceptions.ChequeEspecialException;
 import br.com.zup.ProximosRicos.exceptions.ContaNaoEncontradaException;
+import br.com.zup.ProximosRicos.exceptions.TransferenciaMesmaContaException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -38,6 +39,11 @@ public class ControllerAdvisor {
     @ExceptionHandler(ContaNaoEncontradaException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public MensagemErro contaNaoEncontrada(ContaNaoEncontradaException exception){
+        return new MensagemErro(exception.getMessage());
+    }
+    @ExceptionHandler(TransferenciaMesmaContaException.class)
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    public MensagemErro transferenciaMesmaConta(TransferenciaMesmaContaException exception){
         return new MensagemErro(exception.getMessage());
     }
 }
