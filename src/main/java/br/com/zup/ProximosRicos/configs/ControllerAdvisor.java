@@ -1,6 +1,8 @@
 package br.com.zup.ProximosRicos.configs;
 
 import br.com.zup.ProximosRicos.exceptions.ChequeEspecialException;
+import br.com.zup.ProximosRicos.exceptions.ContaNaoEncontradaException;
+import br.com.zup.ProximosRicos.exceptions.TransferenciaMesmaContaException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -26,12 +28,22 @@ public class ControllerAdvisor {
     }
     @ExceptionHandler(ChequeEspecialException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    public MensagemErro ChequeEspecial (ChequeEspecialException exception){
+    public MensagemErro chequeEspecial (ChequeEspecialException exception){
         return new MensagemErro (exception.getMessage());
     }
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public MensagemErro manipularEnum(HttpMessageNotReadableException exception) {
         return new MensagemErro ("Possuí erros de escrita.");
+    }
+    @ExceptionHandler(ContaNaoEncontradaException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public MensagemErro contaNaoEncontrada(ContaNaoEncontradaException exception){
+        return new MensagemErro(exception.getMessage());
+    }
+    @ExceptionHandler(TransferenciaMesmaContaException.class)
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    public MensagemErro transferenciaMesmaConta(TransferenciaMesmaContaException exception){
+        return new MensagemErro(exception.getMessage());
     }
 }
