@@ -1,6 +1,5 @@
 package br.com.zup.ProximosRicos.conta;
 
-
 import br.com.zup.ProximosRicos.enums.TipoEvento;
 import br.com.zup.ProximosRicos.evento.Evento;
 import br.com.zup.ProximosRicos.evento.EventoRepository;
@@ -9,7 +8,6 @@ import br.com.zup.ProximosRicos.exceptions.ChequeEspecialException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,29 +31,28 @@ public class ContaService {
         }
         return optionalConta.get();
     }
-    public void aplicarTransferencia(Conta contaTransferencia, Evento evento, Conta contaDestino) {
-        aplicarSaque(contaTransferencia,evento);
-        aplicarDeposito(contaDestino,evento);
-        eventoRepository.save(evento);
-    }
-    public void aplicarSaque(Conta conta, Evento evento) {
-        evento.setSaldoDisponivel(conta.getSaldo());
-        if (evento.getSaldoDisponivel() < evento.getValorEvento()) {
+    public void aplicarSaque(int numeroConta, double valorEvento) {
+        Conta conta = new Conta();
+
+        if (conta.getSaldo() < valorEvento) {
             throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
         }
-        double saque = (evento.getSaldoDisponivel() - evento.getValorEvento());
-        conta.setSaldo(saque);
-        conta.getEventos().add(evento);
-        evento.setData(LocalDateTime.now());
-        eventoRepository.save(evento);
+
+        Optional<Conta> contaOptional = contaRepository.findById(numeroConta);
+        Conta contaOp = contaOptional.get();
+        double valorAtual = contaOp.getSaldo();
+        contaOp.setSaldo(contaOp.getNumeroConta() - valorEvento);
+
+        eventoService.gerarEvento(TipoEvento.SAQUE, valorAtual, valorEvento, contaOp);
     }
-    public void aplicarDeposito(Conta conta, Evento evento) {
-        evento.setSaldoDisponivel(conta.getSaldo());
-        double deposito = (evento.getSaldoDisponivel() + evento.getValorEvento());
-        evento.setData(LocalDateTime.now());
-        conta.getEventos().add(evento);
-        conta.setSaldo(deposito);
-        eventoRepository.save(evento);
+    public void aplicarDeposito(int numeroConta, double valorEvento) {
+
+        Optional<Conta> contaOptional = contaRepository.findById(numeroConta);
+        Conta conta = contaOptional.get();
+        double valorAtual = conta.getSaldo();
+        conta.setSaldo(conta.getNumeroConta() + valorEvento);
+
+        eventoService.gerarEvento(TipoEvento.DEPOSITO, valorAtual, valorEvento, conta);
     }
     public void removerContaPorId (int numeroConta){
         boolean contaASerRemovida = false;
@@ -70,11 +67,22 @@ public class ContaService {
             contaRepository.delete(contaRemovida);
         }
     }
-    public List<Evento> exibirTodosOsCadastros(Integer numeroConta) {
-        if (numeroConta != null) {
-            return eventoRepository.findAllById(numeroConta);
-        }
-        Iterable<Evento> eventos = eventoRepository.findAllById(numeroConta);
-        return (List<Evento>) eventos;
-    }
+//    public void aplicarTransferencia(int numeroContaEntrada, int numeroContaSaida, double valorEvento) {
+//
+//        Conta contaSaque = new Conta();
+//        Conta contaDeposito = new Conta();
+//
+//        aplicarSaque(numeroContaSaida, valorEvento);
+//        eventoService.gerarEvento(TipoEvento.TRANSFERENCIA, , valorSaida, conta);
+//        aplicarDeposito(numeroContaEntrada, valorEvento);
+//
+//        eventoService.gerarEvento(TipoEvento.TRANSFERENCIA, valorAtual, valorSaida, conta);
+//    }
+//    public List<Evento> exibirTodosOsCadastros(Integer numeroConta) {
+//        if (numeroConta != null) {
+//            return eventoRepository.findAllById(numeroConta);
+//        }
+//        Iterable<Evento> eventos = eventoRepository.findAllById(numeroConta);
+//        return (List<Evento>) eventos;
+//    }
 }
