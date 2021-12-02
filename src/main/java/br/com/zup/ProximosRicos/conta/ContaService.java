@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -68,5 +69,12 @@ public class ContaService {
         if (contaASerRemovida){
             contaRepository.delete(contaRemovida);
         }
+    }
+    public List<Evento> exibirTodosOsCadastros(Integer numeroConta) {
+        if (numeroConta != null) {
+            return eventoRepository.findAllById(numeroConta);
+        }
+        Iterable<Evento> eventos = eventoRepository.findAllById(numeroConta);
+        return (List<Evento>) eventos;
     }
 }

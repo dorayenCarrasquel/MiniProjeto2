@@ -17,13 +17,6 @@ public class EventoService {
     @Autowired
     private ContaRepository contaRepository;
 
-    public List<Evento> exibirTodosOsCadastros(Integer numeroConta) {
-        if (numeroConta != null) {
-            return eventoRepository.findAllById(numeroConta);
-        }
-        Iterable<Evento> eventos = eventoRepository.findAllById(numeroConta);
-        return (List<Evento>) eventos;
-    }
     public void gerarEvento(TipoEvento tipoEvento, double valorAtual, double valorEvento, Conta conta){
         Evento evento = new Evento();
         evento.setTipoEvento(tipoEvento);
