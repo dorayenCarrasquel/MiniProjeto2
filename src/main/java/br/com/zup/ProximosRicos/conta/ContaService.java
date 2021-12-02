@@ -1,15 +1,13 @@
 package br.com.zup.ProximosRicos.conta;
 
 import br.com.zup.ProximosRicos.enums.TipoEvento;
-import br.com.zup.ProximosRicos.evento.Evento;
 import br.com.zup.ProximosRicos.evento.EventoRepository;
 import br.com.zup.ProximosRicos.evento.EventoService;
 import br.com.zup.ProximosRicos.exceptions.ChequeEspecialException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class ContaService {
