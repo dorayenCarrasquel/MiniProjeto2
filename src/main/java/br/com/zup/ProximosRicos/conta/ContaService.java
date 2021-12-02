@@ -33,7 +33,15 @@ public class ContaService {
     }
     public void aplicarTransferencia(Conta contaTransferencia, Evento evento, Conta contaDestino) {
         eventoService.aplicarSaque(contaTransferencia,evento);
-        eventoService.aplicarDeposito(contaDestino,evento);
+        aplicarDeposito(contaDestino,evento);
+        eventoRepository.save(evento);
+    }
+    public void aplicarDeposito(Conta conta, Evento evento) {
+        evento.setSaldoDisponivel(conta.getSaldo());
+        double deposito = (evento.getSaldoDisponivel() + evento.getValorEvento());
+        evento.setData(LocalDateTime.now());
+        conta.getEventos().add(evento);
+        conta.setSaldo(deposito);
         eventoRepository.save(evento);
     }
     public void removerContaPorId (int numeroConta){

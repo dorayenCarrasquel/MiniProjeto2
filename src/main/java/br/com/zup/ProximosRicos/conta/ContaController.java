@@ -48,7 +48,7 @@ public class ContaController {
             eventoService.aplicarSaque(conta, evento);
         }
         if (evento.getTipoEvento()==TipoEvento.DEPOSITO){
-            eventoService.aplicarDeposito(conta, evento);
+            contaService.aplicarDeposito(conta, evento);
         }
         EventoSaida eventoSaida = modelMapper.map(conta, EventoSaida.class);
         return eventoSaida;
