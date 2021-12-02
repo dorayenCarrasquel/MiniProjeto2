@@ -93,8 +93,12 @@ public class ContaService {
                 if (contaSaidaEncontrada.get().getSaldo() < 0){
                     throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
                 }
-
-            } else if (contaSaidaEncontrada.isPresent() && contaSaidaEncontrada.get().getTipo() == TipoConta.CONTA_POUPANCA) {
+                //Caso a pessoa tente transferir para ela mesma, irá estourar uma exceção.
+                if (contaSaidaEncontrada.get().getNumeroConta() == numeroContaSaida) {
+                    throw new TransferenciaMesmaContaException("Não é possível fazer transferência para a própria conta.");
+                }
+            }
+            else if (contaSaidaEncontrada.isPresent() && contaSaidaEncontrada.get().getTipo() == TipoConta.CONTA_POUPANCA) {
 
                 contaEntradaEncontrada.get().setSaldo(contaEntradaEncontrada.get().getSaldo() + valorEvento);
                 eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_ENTRADA, contaEntradaEncontrada.get().getSaldo(),
@@ -104,8 +108,12 @@ public class ContaService {
                 eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_SAIDA, contaSaidaEncontrada.get().getSaldo(),
                         valorEvento, contaSaidaEncontrada.get());
 
-            } else if (contaSaidaEncontrada.get().getNumeroConta() == numeroContaSaida) {
-                throw new TransferenciaMesmaContaException("Não é possível fazer transferência para a própria conta.");
+                if (contaSaidaEncontrada.get().getSaldo() < 0) {
+                    throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
+                }
+                if (contaSaidaEncontrada.get().getNumeroConta() == numeroContaSaida) {
+                    throw new TransferenciaMesmaContaException("Não é possível fazer transferência para a própria conta.");
+                }
             }
         }
     }
