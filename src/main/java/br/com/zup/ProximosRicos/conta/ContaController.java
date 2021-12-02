@@ -41,16 +41,17 @@ public class ContaController {
     @PutMapping("/{numeroConta}")
     @ApiOperation(value = "Método para aplicar eventos na mesma conta, SAQUE - DEPOSITO")
     @ResponseStatus(HttpStatus.OK)
-    public EventoSaidaDTO aplicarEvento (@PathVariable int numeroConta, @RequestBody EventoEntradaDTO eventoEntradaDTO){
-        Conta conta = contaService.buscarConta(numeroConta);
-        Evento evento = modelMapper.map(eventoEntradaDTO, Evento.class);
-        if (evento.getTipoEvento()== TipoEvento.SAQUE){
-            contaService.aplicarSaque(conta, evento);
+    public EventoSaidaDTO aplicarEventoSaqueDeposito (@PathVariable int numeroConta, @RequestBody EventoEntradaDTO eventoEntradaDTO){
+
+        double valorEvento = eventoEntradaDTO.getValorEvento();
+
+        if (eventoEntradaDTO.getTipoEvento()== TipoEvento.SAQUE){
+            contaService.aplicarSaque(numeroConta, valorEvento);
         }
-        if (evento.getTipoEvento()==TipoEvento.DEPOSITO){
-            contaService.aplicarDeposito(conta, evento);
+        if (eventoEntradaDTO.getTipoEvento()== TipoEvento.DEPOSITO){
+            contaService.aplicarDeposito(numeroConta, valorEvento);
         }
-        EventoSaidaDTO eventoSaidaDTO = modelMapper.map(conta, EventoSaidaDTO.class);
+        EventoSaidaDTO eventoSaidaDTO = modelMapper.map(eventoEntradaDTO, EventoSaidaDTO.class);
         return eventoSaidaDTO;
     }
     @DeleteMapping("/{numeroConta}")
@@ -88,21 +89,20 @@ public class ContaController {
 
         return eventos;
     }
-
-    @PutMapping
-    @ApiOperation(value = "Método para aplicar eventos entre diferentes contas, TRANSFERENCIA")
-    @ResponseStatus(HttpStatus.OK)
-    public EventoSaidaDTO aplicarEvento (@RequestBody EventoTransfDTO eventoTransfDTO){
-        int contaTransferenciaID = eventoTransfDTO.getContaTranferencia();
-        Conta contaTransferencia = contaService.buscarConta(contaTransferenciaID);
-        int contaDestinoID = eventoTransfDTO.getContaDestinoTransferencia();
-        Conta contaDestino = contaService.buscarConta(contaDestinoID);
-        Evento evento = modelMapper.map(eventoTransfDTO, Evento.class);
-
-        if (evento.getTipoEvento()== TipoEvento.TRANSFERENCIA){
-            contaService.aplicarTransferencia(contaTransferencia, evento, contaDestino);
-        }
-        EventoSaidaDTO eventoSaidaDTO = modelMapper.map(contaTransferencia, EventoSaidaDTO.class);
-        return eventoSaidaDTO;
-    }
+    //   @PutMapping
+    //    @ApiOperation(value = "Método para aplicar eventos entre diferentes contas, TRANSFERENCIA")
+    //    @ResponseStatus(HttpStatus.OK)
+    //    public EventoSaidaDTO aplicarEvento (@RequestBody EventoTransfDTO eventoTransfDTO){
+    //        int contaTransferenciaID = eventoTransfDTO.getContaTranferencia();
+    //        Conta contaTransferencia = contaService.buscarConta(contaTransferenciaID);
+    //        int contaDestinoID = eventoTransfDTO.getContaDestinoTransferencia();
+    //        Conta contaDestino = contaService.buscarConta(contaDestinoID);
+    //        Evento evento = modelMapper.map(eventoTransfDTO, Evento.class);
+    //
+    //        if (evento.getTipoEvento()== TipoEvento.TRANSFERENCIA){
+    //            contaService.aplicarTransferencia(contaTransferencia, evento, contaDestino);
+    //        }
+    //        EventoSaidaDTO eventoSaidaDTO = modelMapper.map(contaTransferencia, EventoSaidaDTO.class);
+    //        return eventoSaidaDTO;
+    //    }
 }
