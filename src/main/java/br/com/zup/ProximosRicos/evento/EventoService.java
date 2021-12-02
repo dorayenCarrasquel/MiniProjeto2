@@ -2,6 +2,7 @@ package br.com.zup.ProximosRicos.evento;
 
 import br.com.zup.ProximosRicos.conta.Conta;
 import br.com.zup.ProximosRicos.conta.ContaRepository;
+import br.com.zup.ProximosRicos.enums.TipoEvento;
 import br.com.zup.ProximosRicos.exceptions.ChequeEspecialException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
