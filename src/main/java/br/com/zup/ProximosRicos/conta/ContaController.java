@@ -43,6 +43,9 @@ public class ContaController {
     @ResponseStatus(HttpStatus.OK)
     public EventoSaidaDTO aplicarEventoSaqueDeposito (@PathVariable int numeroConta, @RequestBody EventoEntradaDTO eventoEntradaDTO){
 
+        Conta conta = contaService.buscarConta(numeroConta);
+        modelMapper.map(eventoEntradaDTO, Conta.class);
+
         double valorEvento = eventoEntradaDTO.getValorEvento();
 
         if (eventoEntradaDTO.getTipoEvento()== TipoEvento.SAQUE){
@@ -51,7 +54,8 @@ public class ContaController {
         if (eventoEntradaDTO.getTipoEvento()== TipoEvento.DEPOSITO){
             contaService.aplicarDeposito(numeroConta, valorEvento);
         }
-        EventoSaidaDTO eventoSaidaDTO = modelMapper.map(eventoEntradaDTO, EventoSaidaDTO.class);
+
+        EventoSaidaDTO eventoSaidaDTO = modelMapper.map(conta, EventoSaidaDTO.class);
         return eventoSaidaDTO;
     }
     @DeleteMapping("/{numeroConta}")
