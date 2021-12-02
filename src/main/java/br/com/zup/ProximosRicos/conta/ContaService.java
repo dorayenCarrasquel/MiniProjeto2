@@ -64,17 +64,27 @@ public class ContaService {
 
     public void aplicarTransferencia(int numeroContaSaida, int numeroContaEntrada, double valorEvento) {
 
+        //Esta parte do código irá navegar através dos repositórios para encontrar as contas corretas para fazer
+        //a soma e a subtração dos saldos de suas respectivas contas recebidas através do Json.
         Optional<Conta> contaEntradaEncontrada = contaRepository.findById(numeroContaEntrada);
+
         if (contaEntradaEncontrada.isPresent()) {
             Optional<Conta> contaSaidaEncontrada = contaRepository.findById(numeroContaSaida);
+
             if (contaSaidaEncontrada.isPresent()){
+
+                //Estrutura de decisão que impede que o usuário transifira dinheiro para ele mesmo.
                 if (contaSaidaEncontrada.get().getNumeroConta() != numeroContaSaida){
 
+                    //Caso ambas as contas sejam encontradas, irá fazer a soma/subtração do saldo atual,
+                    //e irá criar um novo evento de transfererência saida/entrada para ambas as contas.
                     contaEntradaEncontrada.get().setSaldo(contaEntradaEncontrada.get().getSaldo() + valorEvento);
-                    eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_ENTRADA, contaEntradaEncontrada.get().getSaldo(), valorEvento, contaEntradaEncontrada.get());
+                    eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_ENTRADA, contaEntradaEncontrada.get().getSaldo(),
+                            valorEvento, contaEntradaEncontrada.get());
 
                     contaSaidaEncontrada.get().setSaldo(contaSaidaEncontrada.get().getSaldo() - valorEvento);
-                    eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_SAIDA, contaSaidaEncontrada.get().getSaldo(), valorEvento, contaSaidaEncontrada.get());
+                    eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_SAIDA, contaSaidaEncontrada.get().getSaldo(),
+                            valorEvento, contaSaidaEncontrada.get());
 
                 }else if (contaSaidaEncontrada.get().getNumeroConta() == numeroContaSaida){
                     throw new RuntimeException("Não é possível fazer transferência para a própria conta.");
