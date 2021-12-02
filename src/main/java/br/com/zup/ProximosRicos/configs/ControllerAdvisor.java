@@ -1,6 +1,7 @@
 package br.com.zup.ProximosRicos.configs;
 
 import br.com.zup.ProximosRicos.exceptions.ChequeEspecialException;
+import br.com.zup.ProximosRicos.exceptions.ContaNaoEncontrada;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -26,12 +27,17 @@ public class ControllerAdvisor {
     }
     @ExceptionHandler(ChequeEspecialException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    public MensagemErro ChequeEspecial (ChequeEspecialException exception){
+    public MensagemErro chequeEspecial (ChequeEspecialException exception){
         return new MensagemErro (exception.getMessage());
     }
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public MensagemErro manipularEnum(HttpMessageNotReadableException exception) {
         return new MensagemErro ("Possuí erros de escrita.");
+    }
+    @ExceptionHandler(ContaNaoEncontrada.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public MensagemErro contaNaoEncontrada(ContaNaoEncontrada exception){
+        return new MensagemErro(exception.getMessage());
     }
 }

@@ -30,8 +30,8 @@ public class ContaService {
 
     public Conta buscarConta(int numeroConta) {
         Optional<Conta> optionalConta = contaRepository.findById(numeroConta);
-        if (optionalConta.isEmpty()) {
-            throw new RuntimeException("Conta não registrada");
+        if (optionalConta.isEmpty()){
+            throw new RuntimeException("Conta não encontrada.");
         }
         return optionalConta.get();
     }
