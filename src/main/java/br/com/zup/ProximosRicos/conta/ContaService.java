@@ -32,15 +32,15 @@ public class ContaService {
         return optionalConta.get();
     }
     public void aplicarSaque(int numeroConta, double valorEvento) {
-        Conta conta = new Conta();
-
-        if (conta.getSaldo() < valorEvento) {
-            throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
-        }
 
         Optional<Conta> contaOptional = contaRepository.findById(numeroConta);
         Conta contaOp = contaOptional.get();
         double valorAtual = contaOp.getSaldo();
+
+        if (contaOp.getSaldo() < valorEvento) {
+            throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
+        }
+
         contaOp.setSaldo(valorAtual - valorEvento);
 
         eventoService.gerarEvento(TipoEvento.SAQUE, valorAtual, valorEvento, contaOp);
@@ -59,7 +59,7 @@ public class ContaService {
 
         Optional<Conta> contaEntradaEncontrada = contaRepository.findById(numeroContaEntrada);
         if (contaEntradaEncontrada.isPresent()){
-            valorEventoEntrada = contaEntradaEncontrada.get().getSaldo()
+            valorEventoEntrada = contaEntradaEncontrada.get().getSaldo();
 
         }
 
