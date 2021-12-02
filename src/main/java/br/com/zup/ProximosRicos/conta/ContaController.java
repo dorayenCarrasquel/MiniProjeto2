@@ -24,12 +24,18 @@ import java.util.List;
 @Api(value = "Serviso de Caixa Banco Proximos Ricos")
 @CrossOrigin(origins = "*")
 public class ContaController {
-    @Autowired
+
     private ContaService contaService;
-    @Autowired
     private ModelMapper modelMapper;
-    @Autowired
     private EventoService eventoService;
+
+    @Autowired
+    public ContaController(ContaService contaService, ModelMapper modelMapper, EventoService eventoService){
+        this.contaService = contaService;
+        this.eventoService = eventoService;
+        this.modelMapper = modelMapper;
+    }
+
 
     @PostMapping
     @ApiOperation(value = "Método para Cadastrar contas, Banco Proximos Ricos")
