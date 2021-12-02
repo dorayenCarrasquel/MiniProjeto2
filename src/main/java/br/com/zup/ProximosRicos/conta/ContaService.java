@@ -14,23 +14,30 @@ import java.util.Optional;
 @Service
 public class ContaService {
 
-    @Autowired
     private ContaRepository contaRepository;
-    @Autowired
     private EventoRepository eventoRepository;
-    @Autowired
     private EventoService eventoService;
 
-    public Conta salvarConta (Conta conta){
+    @Autowired
+    public ContaService(ContaRepository contaRepository, EventoRepository eventoRepository, EventoService eventoService) {
+        this.contaRepository = contaRepository;
+        this.eventoService = eventoService;
+        this.eventoRepository = eventoRepository;
+    }
+
+
+    public Conta salvarConta(Conta conta) {
         return contaRepository.save(conta);
     }
-    public Conta buscarConta(int numeroConta){
+
+    public Conta buscarConta(int numeroConta) {
         Optional<Conta> optionalConta = contaRepository.findById(numeroConta);
-        if (optionalConta.isEmpty()){
+        if (optionalConta.isEmpty()) {
             throw new RuntimeException("Conta não registrada");
         }
         return optionalConta.get();
     }
+
     public void aplicarSaque(int numeroConta, double valorEvento) {
 
         Optional<Conta> contaOptional = contaRepository.findById(numeroConta);
@@ -45,6 +52,7 @@ public class ContaService {
 
         eventoService.gerarEvento(TipoEvento.SAQUE, valorAtual, valorEvento, contaOp);
     }
+
     public void aplicarDeposito(int numeroConta, double valorEvento) {
 
         Optional<Conta> contaOptional = contaRepository.findById(numeroConta);
@@ -54,12 +62,13 @@ public class ContaService {
 
         eventoService.gerarEvento(TipoEvento.DEPOSITO, valorAtual, valorEvento, conta);
     }
+
     public void aplicarTransferencia(int numeroContaSaida, int numeroContaEntrada, double valorEvento) {
 
         Optional<Conta> contaEntradaEncontrada = contaRepository.findById(numeroContaEntrada);
-        if (contaEntradaEncontrada.isPresent()){
+        if (contaEntradaEncontrada.isPresent()) {
             Optional<Conta> contaSaidaEncontrada = contaRepository.findById(numeroContaSaida);
-            if (contaSaidaEncontrada.isPresent()){
+            if (contaSaidaEncontrada.isPresent()) {
 
                 contaEntradaEncontrada.get().setSaldo(contaEntradaEncontrada.get().getSaldo() + valorEvento);
                 eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_ENTRADA, contaEntradaEncontrada.get().getSaldo(), valorEvento, contaEntradaEncontrada.get());
@@ -69,16 +78,17 @@ public class ContaService {
             }
         }
     }
-    public void removerContaPorId (int numeroConta){
+
+    public void removerContaPorId(int numeroConta) {
         boolean contaASerRemovida = false;
         Conta contaRemovida = null;
-        for (Conta conta : contaRepository.findAll()){
-            if (conta.getNumeroConta() == numeroConta){
+        for (Conta conta : contaRepository.findAll()) {
+            if (conta.getNumeroConta() == numeroConta) {
                 contaASerRemovida = true;
                 contaRemovida = conta;
             }
         }
-        if (contaASerRemovida){
+        if (contaASerRemovida) {
             contaRepository.delete(contaRemovida);
         }
     }
