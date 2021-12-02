@@ -4,7 +4,7 @@ import br.com.zup.ProximosRicos.enums.TipoEvento;
 import br.com.zup.ProximosRicos.evento.EventoRepository;
 import br.com.zup.ProximosRicos.evento.EventoService;
 import br.com.zup.ProximosRicos.exceptions.ChequeEspecialException;
-import br.com.zup.ProximosRicos.exceptions.ContaNaoEncontrada;
+import br.com.zup.ProximosRicos.exceptions.ContaNaoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
@@ -32,7 +32,7 @@ public class ContaService {
     public Conta buscarConta(int numeroConta) {
         Optional<Conta> optionalConta = contaRepository.findById(numeroConta);
         if (optionalConta.isEmpty()){
-            throw new ContaNaoEncontrada("Conta não encontrada.");
+            throw new ContaNaoEncontradaException("Conta não encontrada.");
         }
         return optionalConta.get();
     }
@@ -67,12 +67,8 @@ public class ContaService {
         Optional<Conta> contaEntradaEncontrada = contaRepository.findById(numeroContaEntrada);
         if (contaEntradaEncontrada.isPresent()) {
             Optional<Conta> contaSaidaEncontrada = contaRepository.findById(numeroContaSaida);
-<<<<<<< HEAD
-            if (contaSaidaEncontrada.isPresent()) {
-=======
             if (contaSaidaEncontrada.isPresent()){
                 if (contaSaidaEncontrada.get().getNumeroConta() != numeroContaSaida){
->>>>>>> 11e70b2 (Criar validação no método 'aplicarTransferência' se a conta é a mesma)
 
                     contaEntradaEncontrada.get().setSaldo(contaEntradaEncontrada.get().getSaldo() + valorEvento);
                     eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_ENTRADA, contaEntradaEncontrada.get().getSaldo(), valorEvento, contaEntradaEncontrada.get());
