@@ -62,10 +62,10 @@ public class ContaService {
             if (contaSaidaEncontrada.isPresent()){
 
                 contaEntradaEncontrada.get().setSaldo(contaEntradaEncontrada.get().getSaldo() + valorEvento);
-                eventoService.gerarEvento(TipoEvento.TRANSFERENCIA, contaEntradaEncontrada.get().getSaldo(), valorEvento, contaEntradaEncontrada.get());
+                eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_ENTRADA, contaEntradaEncontrada.get().getSaldo(), valorEvento, contaEntradaEncontrada.get());
 
                 contaSaidaEncontrada.get().setSaldo(contaSaidaEncontrada.get().getSaldo() - valorEvento);
-                eventoService.gerarEvento(TipoEvento.TRANSFERENCIA, contaSaidaEncontrada.get().getSaldo(), valorEvento, contaSaidaEncontrada.get());
+                eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_SAIDA, contaSaidaEncontrada.get().getSaldo(), valorEvento, contaSaidaEncontrada.get());
             }
         }
     }

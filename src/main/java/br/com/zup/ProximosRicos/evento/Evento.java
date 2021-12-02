@@ -24,10 +24,19 @@ public class Evento {
     @NotNull(message = "{validacao.tipoEvento.not-null}")
     @Valid
     private TipoEvento tipoEvento;
+    private double saldoDisponivel;
     private double valorEvento;
 
     public Evento() {
 
+    }
+
+    public double getSaldoDisponivel() {
+        return saldoDisponivel;
+    }
+
+    public void setSaldoDisponivel(double saldoDisponivel) {
+        this.saldoDisponivel = saldoDisponivel;
     }
 
     public int getId() {

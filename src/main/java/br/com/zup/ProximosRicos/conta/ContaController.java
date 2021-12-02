@@ -100,13 +100,12 @@ public class ContaController {
             int contaTransferenciaID = eventoTransfDTO.getContaTranferencia();
             int contaDestinoID = eventoTransfDTO.getContaDestinoTransferencia();
 
-            Conta contaTransferencia = contaService.buscarConta(contaTransferenciaID);
-            Evento evento = modelMapper.map(eventoTransfDTO, Evento.class);
-
-            if (evento.getTipoEvento()== TipoEvento.TRANSFERENCIA){
+           if (eventoTransfDTO.getTipoEvento() == TipoEvento.TRANSFERENCIA){
                 contaService.aplicarTransferencia(contaTransferenciaID, contaDestinoID, eventoTransfDTO.getValorTransferencia());
+               Conta contaTransferencia = contaService.buscarConta(contaTransferenciaID);
+               EventoSaidaDTO eventoSaidaDTO = modelMapper.map(contaTransferencia, EventoSaidaDTO.class);
+               return eventoSaidaDTO;
             }
-            EventoSaidaDTO eventoSaidaDTO = modelMapper.map(contaTransferencia, EventoSaidaDTO.class);
-            return eventoSaidaDTO;
+           throw new RuntimeException("Transferencia inválida.");
         }
 }
