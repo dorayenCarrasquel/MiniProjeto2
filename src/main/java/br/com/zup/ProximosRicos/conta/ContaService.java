@@ -76,44 +76,26 @@ public class ContaService {
 
             //Se ambas as contas forem do tipo Conta Corrente, a pessoa que deseja transferir
             // irá receber uma taxa do banco de 10%
-            if (contaSaidaEncontrada.isPresent() && contaSaidaEncontrada.get().getTipo() == TipoConta.CONTA_CORRENTE) {
+            if (contaSaidaEncontrada.isPresent()) {
 
+                if (contaSaidaEncontrada.get().getNumeroConta() == numeroContaEntrada) {
+                    throw new TransferenciaMesmaContaException("Não é possível fazer transferência para a própria conta.");
+                }
+                if (contaSaidaEncontrada.get().getSaldo() <= 0 || contaSaidaEncontrada.get().getSaldo() < valorEvento){
+                    throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
+                }
                 //Caso ambas as contas sejam encontradas, irá fazer a soma/subtração do saldo atual,
                 //e irá criar um novo evento de transfererência saida/entrada para ambas as contas.
                 contaEntradaEncontrada.get().setSaldo(contaEntradaEncontrada.get().getSaldo() + valorEvento);
                 eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_ENTRADA, contaEntradaEncontrada.get().getSaldo(),
                         valorEvento, contaEntradaEncontrada.get());
 
-                contaSaidaEncontrada.get().setSaldo(contaSaidaEncontrada.get().getSaldo() - valorEvento * 1.10);
-                eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_SAIDA, contaSaidaEncontrada.get().getSaldo(),
-                        valorEvento, contaSaidaEncontrada.get());
-
-                //Caso a pessoa que quer transferir o dinheiro não teha a quantia suficiente na conta para realizar
-                //a transação, irá estourar a exceção.
-                if (contaSaidaEncontrada.get().getSaldo() < 0){
-                    throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
+                if (contaEntradaEncontrada.get().getTipo() == TipoConta.CONTA_CORRENTE){
+                    valorEvento = valorEvento * 1.10;
                 }
-                //Caso a pessoa tente transferir para ela mesma, irá estourar uma exceção.
-                if (contaSaidaEncontrada.get().getNumeroConta() == numeroContaSaida) {
-                    throw new TransferenciaMesmaContaException("Não é possível fazer transferência para a própria conta.");
-                }
-            }
-            else if (contaSaidaEncontrada.isPresent() && contaSaidaEncontrada.get().getTipo() == TipoConta.CONTA_POUPANCA) {
-
-                contaEntradaEncontrada.get().setSaldo(contaEntradaEncontrada.get().getSaldo() + valorEvento);
-                eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_ENTRADA, contaEntradaEncontrada.get().getSaldo(),
-                        valorEvento, contaEntradaEncontrada.get());
-
-                contaSaidaEncontrada.get().setSaldo(contaSaidaEncontrada.get().getSaldo() - valorEvento);
-                eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_SAIDA, contaSaidaEncontrada.get().getSaldo(),
-                        valorEvento, contaSaidaEncontrada.get());
-
-                if (contaSaidaEncontrada.get().getSaldo() < 0) {
-                    throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
-                }
-                if (contaSaidaEncontrada.get().getNumeroConta() == numeroContaSaida) {
-                    throw new TransferenciaMesmaContaException("Não é possível fazer transferência para a própria conta.");
-                }
+                    contaSaidaEncontrada.get().setSaldo(contaSaidaEncontrada.get().getSaldo() - valorEvento);
+                    eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_SAIDA, contaSaidaEncontrada.get().getSaldo(),
+                            valorEvento, contaSaidaEncontrada.get());
             }
         }
     }
