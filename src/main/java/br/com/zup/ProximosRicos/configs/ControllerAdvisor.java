@@ -11,6 +11,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,29 +29,40 @@ public class ControllerAdvisor {
         }
         return erros;
     }
+
     @ExceptionHandler(ChequeEspecialException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    public MensagemErro chequeEspecial (ChequeEspecialException exception){
-        return new MensagemErro (exception.getMessage());
+    public MensagemErro chequeEspecial(ChequeEspecialException exception) {
+        return new MensagemErro(exception.getMessage());
     }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public MensagemErro manipularEnum(HttpMessageNotReadableException exception) {
-        return new MensagemErro ("Possuí erros de escrita.");
+        return new MensagemErro("Possuí erros de escrita.");
     }
+
     @ExceptionHandler(ContaNaoEncontradaException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public MensagemErro contaNaoEncontrada(ContaNaoEncontradaException exception){
+    public MensagemErro contaNaoEncontrada(ContaNaoEncontradaException exception) {
         return new MensagemErro(exception.getMessage());
     }
+
     @ExceptionHandler(TransferenciaMesmaContaException.class)
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    public MensagemErro transferenciaMesmaConta(TransferenciaMesmaContaException exception){
+    public MensagemErro transferenciaMesmaConta(TransferenciaMesmaContaException exception) {
         return new MensagemErro(exception.getMessage());
     }
+
     @ExceptionHandler(TransferenciaInvalidaException.class)
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    public MensagemErro tranferenciaInvalidaException (TransferenciaInvalidaException excpetion){
+    public MensagemErro tranferenciaInvalidaException(TransferenciaInvalidaException excpetion) {
         return new MensagemErro(excpetion.getMessage());
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public MensagemErro cadastroDuplicado(SQLIntegrityConstraintViolationException exception){
+        return new MensagemErro("CPF já cadastrado no banco de dados.");
     }
 }
