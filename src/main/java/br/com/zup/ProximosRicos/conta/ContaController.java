@@ -8,6 +8,7 @@ import br.com.zup.ProximosRicos.evento.EventoService;
 import br.com.zup.ProximosRicos.evento.dtos.EventoEntradaDTO;
 import br.com.zup.ProximosRicos.evento.dtos.EventoSaidaDTO;
 import br.com.zup.ProximosRicos.evento.dtos.EventoTransfDTO;
+import br.com.zup.ProximosRicos.exceptions.TransferenciaInvalidaException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
@@ -48,7 +49,7 @@ public class ContaController {
     @PutMapping("/{numeroConta}")
     @ApiOperation(value = "Método para aplicar eventos na mesma conta, SAQUE - DEPOSITO")
     @ResponseStatus(HttpStatus.OK)
-    public EventoSaidaDTO aplicarEventoSaqueDeposito(@PathVariable int numeroConta, @RequestBody EventoEntradaDTO eventoEntradaDTO) {
+    public EventoSaidaDTO aplicarEventoSaqueDeposito(@PathVariable int numeroConta,@Valid @RequestBody EventoEntradaDTO eventoEntradaDTO) {
 
         Conta conta = contaService.buscarConta(numeroConta);
         modelMapper.map(eventoEntradaDTO, Conta.class);
@@ -106,7 +107,7 @@ public class ContaController {
     @PutMapping
     @ApiOperation(value = "Método para aplicar eventos entre diferentes contas, TRANSFERENCIA")
     @ResponseStatus(HttpStatus.OK)
-    public EventoSaidaDTO aplicarEventoTransferencia(@RequestBody EventoTransfDTO eventoTransfDTO) {
+    public EventoSaidaDTO aplicarEventoTransferencia(@RequestBody @Valid EventoTransfDTO eventoTransfDTO) {
         int contaTransferenciaID = eventoTransfDTO.getContaTranferencia();
         int contaDestinoID = eventoTransfDTO.getContaDestinoTransferencia();
 
@@ -116,6 +117,6 @@ public class ContaController {
             EventoSaidaDTO eventoSaidaDTO = modelMapper.map(contaTransferencia, EventoSaidaDTO.class);
             return eventoSaidaDTO;
         }
-        throw new RuntimeException("Transferencia inválida.");
+        throw new TransferenciaInvalidaException("Transferencia inválida.");
     }
 }
