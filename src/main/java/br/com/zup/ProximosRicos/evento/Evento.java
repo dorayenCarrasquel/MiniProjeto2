@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -25,6 +26,7 @@ public class Evento {
     @Valid
     private TipoEvento tipoEvento;
     private double saldoDisponivel;
+    @DecimalMin(value = "0.01",message = "{validacao.valorEvento.decimal-min}")
     private double valorEvento;
 
     public Evento() {

@@ -2,6 +2,7 @@ package br.com.zup.ProximosRicos.configs;
 
 import br.com.zup.ProximosRicos.exceptions.ChequeEspecialException;
 import br.com.zup.ProximosRicos.exceptions.ContaNaoEncontradaException;
+import br.com.zup.ProximosRicos.exceptions.TransferenciaInvalidaException;
 import br.com.zup.ProximosRicos.exceptions.TransferenciaMesmaContaException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -45,5 +46,10 @@ public class ControllerAdvisor {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     public MensagemErro transferenciaMesmaConta(TransferenciaMesmaContaException exception){
         return new MensagemErro(exception.getMessage());
+    }
+    @ExceptionHandler(TransferenciaInvalidaException.class)
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    public MensagemErro tranferenciaInvalidaException (TransferenciaInvalidaException excpetion){
+        return new MensagemErro(excpetion.getMessage());
     }
 }
