@@ -78,24 +78,32 @@ public class ContaService {
             // irá receber uma taxa do banco de 10%
             if (contaSaidaEncontrada.isPresent()) {
 
+                double valorAnterior = valorEvento;
+
                 if (contaSaidaEncontrada.get().getNumeroConta() == numeroContaEntrada) {
                     throw new TransferenciaMesmaContaException("Não é possível fazer transferência para a própria conta.");
                 }
-                if (contaSaidaEncontrada.get().getSaldo() <= 0 || contaSaidaEncontrada.get().getSaldo() < valorEvento){
+
+                if (contaSaidaEncontrada.get().getSaldo() <= 0 || contaSaidaEncontrada.get().getSaldo() < valorEvento) {
                     throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
+                }
+
+                if (contaSaidaEncontrada.get().getTipo() == TipoConta.CONTA_CORRENTE) {
+                    valorEvento = valorEvento * 1.10;
+                    if (contaSaidaEncontrada.get().getSaldo() <= 0 || contaSaidaEncontrada.get().getSaldo() < valorEvento) {
+                        throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
+                    }
                 }
                 //Caso ambas as contas sejam encontradas, irá fazer a soma/subtração do saldo atual,
                 //e irá criar um novo evento de transfererência saida/entrada para ambas as contas.
-                contaEntradaEncontrada.get().setSaldo(contaEntradaEncontrada.get().getSaldo() + valorEvento);
+                contaEntradaEncontrada.get().setSaldo(contaEntradaEncontrada.get().getSaldo() + valorAnterior);
                 eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_ENTRADA, contaEntradaEncontrada.get().getSaldo(),
-                        valorEvento, contaEntradaEncontrada.get());
+                        valorAnterior, contaEntradaEncontrada.get());
 
-                if (contaEntradaEncontrada.get().getTipo() == TipoConta.CONTA_CORRENTE){
-                    valorEvento = valorEvento * 1.10;
-                }
-                    contaSaidaEncontrada.get().setSaldo(contaSaidaEncontrada.get().getSaldo() - valorEvento);
-                    eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_SAIDA, contaSaidaEncontrada.get().getSaldo(),
-                            valorEvento, contaSaidaEncontrada.get());
+
+                contaSaidaEncontrada.get().setSaldo(contaSaidaEncontrada.get().getSaldo() - valorEvento);
+                eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_SAIDA, contaSaidaEncontrada.get().getSaldo(),
+                        valorEvento, contaSaidaEncontrada.get());
             }
         }
     }
