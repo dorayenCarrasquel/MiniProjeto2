@@ -74,28 +74,33 @@ public class ContaService {
         if (contaEntradaEncontrada.isPresent()) {
             Optional<Conta> contaSaidaEncontrada = contaRepository.findById(numeroContaSaida);
 
-            //Se ambas as contas forem do tipo Conta Corrente, a pessoa que deseja transferir
-            // irá receber uma taxa do banco de 10%
             if (contaSaidaEncontrada.isPresent()) {
 
+                //Esta variável armazena o valor do evento recebido através do Json com o propósito de
+                //ser chamada futuramente caso o tipo de transferência não seja entre duas contas correntes.
                 double valorAnterior = valorEvento;
 
+                //Verifica se a transferência esta sendo feita para a mesma conta.
                 if (contaSaidaEncontrada.get().getNumeroConta() == numeroContaEntrada) {
                     throw new TransferenciaMesmaContaException("Não é possível fazer transferência para a própria conta.");
                 }
 
+                //Verifica se o usuário tem a quantidade necessária de dinheiro para realizar a transferência.
                 if (contaSaidaEncontrada.get().getSaldo() <= 0 || contaSaidaEncontrada.get().getSaldo() < valorEvento) {
                     throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
                 }
 
+                //Verifica se a conta do usuário é do tipo Conta Corrente. Se sim, aplicará 10% de taxa.
+                //Verifica se o usuário tem a quantidade necessária de dinheiro para realizar a transferência.
                 if (contaSaidaEncontrada.get().getTipo() == TipoConta.CONTA_CORRENTE) {
                     valorEvento = valorEvento * 1.10;
                     if (contaSaidaEncontrada.get().getSaldo() <= 0 || contaSaidaEncontrada.get().getSaldo() < valorEvento) {
                         throw new ChequeEspecialException("Você entrou no cheque especial, por favor realize um deposito");
                     }
                 }
+
                 //Caso ambas as contas sejam encontradas, irá fazer a soma/subtração do saldo atual,
-                //e irá criar um novo evento de transfererência saida/entrada para ambas as contas.
+                //e criará um novo evento de transfererência saida/entrada para ambas as contas.
                 contaEntradaEncontrada.get().setSaldo(contaEntradaEncontrada.get().getSaldo() + valorAnterior);
                 eventoService.gerarEvento(TipoEvento.TRANSFERENCIA_ENTRADA, contaEntradaEncontrada.get().getSaldo(),
                         valorAnterior, contaEntradaEncontrada.get());
